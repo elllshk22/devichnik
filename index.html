@@ -89,7 +89,13 @@ html.no-scroll, body.no-scroll{
   font-family:'Playfair Display',serif; font-weight:900;
   font-size:clamp(38px,11vw,86px); line-height:.92; margin:0;
   color:var(--wine); letter-spacing:-.015em; text-transform:uppercase;
+  cursor:pointer;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .15s ease, filter .3s ease;
 }
+.top h1.tap{ transform:scale(.96); }
+.top h1.glow{ filter:drop-shadow(0 0 18px rgba(217,32,72,.75)); }
 .top h1 .script{
   display:block; font-family:'Great Vibes',cursive; font-weight:400;
   font-size:clamp(38px,10vw,74px); color:var(--red);
@@ -342,24 +348,35 @@ html.no-scroll, body.no-scroll{
 /* ДЕТАЛИ */
 .details{position:relative; z-index:5; background:#fff;
   padding:40px 16px 90px; border-top:3px double var(--rose);}
-.details-inner{max-width:900px; margin:0 auto}
+.details-inner{max-width:1100px; margin:0 auto}
 .details h2{font-family:'Playfair Display',serif; font-weight:900;
   text-align:center; font-size:clamp(24px,5vw,34px); color:var(--wine);
   margin:64px 0 22px; letter-spacing:-.01em;}
 .details h2:first-child{margin-top:0}
 
-.vibe{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px}
+/* ВАЙБЫ: 6 в строку */
+.vibe{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:12px;
+}
+@media (max-width:1100px){
+  .vibe{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:640px){
+  .vibe{grid-template-columns:repeat(2,1fr)}
+}
 .vibe-card{background:#fff8f9; border:1px solid var(--rose); border-radius:6px;
-  padding:22px 18px; text-align:center;
+  padding:18px 12px; text-align:center;
   transition:transform .3s, box-shadow .3s, background .3s; cursor:default;}
 .vibe-card:hover{transform:translateY(-6px) rotate(-1deg);
   box-shadow:0 20px 40px rgba(139,28,51,.22); background:#fff;}
-.vibe-card .ico{font-size:44px; line-height:1; margin-bottom:10px;
+.vibe-card .ico{font-size:36px; line-height:1; margin-bottom:8px;
   display:inline-block; transition:transform .4s;}
 .vibe-card:hover .ico{transform:scale(1.2) rotate(6deg)}
-.vibe-card h3{margin:0 0 6px; font-size:17px; color:var(--wine);
+.vibe-card h3{margin:0 0 6px; font-size:15px; color:var(--wine);
   font-family:'Playfair Display',serif; font-weight:700;}
-.vibe-card p{margin:0; font-size:14px; color:var(--ink); opacity:.78; line-height:1.45}
+.vibe-card p{margin:0; font-size:12.5px; color:var(--ink); opacity:.78; line-height:1.4}
 
 .countdown{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
 .cd-box{background:#fff8f9; border:1px solid var(--rose); border-radius:6px;
@@ -659,7 +676,7 @@ html.no-scroll, body.no-scroll{
     <div class="vibe-card"><div class="ico">🛁</div><h3>Чан</h3><p>Тёплая вода, звёзды и разговоры до ночи</p></div>
     <div class="vibe-card"><div class="ico">🎉</div><h3>Конкурсы</h3><p>Игры, викторины и много смеха</p></div>
     <div class="vibe-card"><div class="ico">🍓</div><h3>Еда</h3><p>Фрукты, сыр, сладенькое и просекко</p></div>
-    <div class="vibe-card"><div class="ico">🎨</div><h3>Творчество</h3><p>Рисуем, клеим, делаем что-то красивое на память</p></div>
+    <div class="vibe-card"><div class="ico">🎨</div><h3>Творчество</h3><p>Оставим на память</p></div>
   </div>
 
 </div>
@@ -762,7 +779,7 @@ const PHOTOS_GIRLS = [
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* ========================================================= */
 
-/* ============ АУДИО-КОНТЕКСТ (один на всё) ============ */
+/* ============ АУДИО-КОНТЕКСТ ============ */
 let AC = null;
 function getAudio(){
   if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
@@ -845,7 +862,6 @@ function thud(){
 let musicOn = false;
 let musicTimer = null;
 let masterGain = null;
-let padGain = null;
 
 const N = {
   A2:110.00, C3:130.81, E3:164.81, F3:174.61, G3:196.00,
@@ -978,7 +994,7 @@ musicBtn.addEventListener('click', () => {
   if (musicOn) stopMusic(); else startMusic();
 });
 
-/* ---- Автозапуск: сначала пытаемся сразу, потом при первом действии ---- */
+/* ---- Автозапуск ---- */
 function attemptAutostart(){
   getAudio();
   if (AC.state === 'running'){
@@ -990,21 +1006,12 @@ function attemptAutostart(){
   }).catch(()=>{});
   return false;
 }
+window.addEventListener('load', () => { attemptAutostart(); });
 
-// старт при загрузке
-window.addEventListener('load', () => {
-  attemptAutostart();
-});
-
-// подстраховка на первое действие пользователя
-function onceStart(){
-  if (musicOn) return;
-  attemptAutostart();
-}
+function onceStart(){ if (!musicOn) attemptAutostart(); }
 ['click','touchstart','keydown','scroll','mousemove','pointerdown'].forEach(ev => {
   document.addEventListener(ev, onceStart, { once:false, passive:true });
 });
-// но не спамим: как только музыка включилась — снимаем
 const musicCheck = setInterval(() => {
   if (musicOn){
     ['click','touchstart','keydown','scroll','mousemove','pointerdown'].forEach(ev => {
@@ -1418,7 +1425,62 @@ function showToast(msg){
   toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
 }
 
-/* ============ ПАСХАЛКА ============ */
+/* ============ ПАСХАЛКА: 5 тапов по заголовку ============ */
+const h1El = document.querySelector('.top h1');
+let tapCount = 0;
+let tapTimer = null;
+
+function easterEgg(){
+  for (let i = 0; i < 14; i++){
+    setTimeout(() => burst(
+      Math.random()*innerWidth,
+      Math.random()*innerHeight*0.6,
+      30
+    ), i * 180);
+  }
+  chime();
+  showToast('🎉 Секретный уровень: люблю тебя, Саша! 🎉');
+  document.body.animate(
+    [{ filter:'brightness(1)' },
+     { filter:'brightness(1.15)' },
+     { filter:'brightness(1)' }],
+    { duration: 900, easing:'ease-in-out' }
+  );
+}
+
+function onTitleTap(){
+  if (!h1El) return;
+  tapCount++;
+  h1El.classList.add('tap');
+  setTimeout(() => h1El.classList.remove('tap'), 130);
+
+  if (tapCount === 3){
+    showToast('Ещё чуть-чуть… 👀');
+  }
+  if (tapCount === 4){
+    h1El.classList.add('glow');
+    showToast('Ещё один тап! ✨');
+    setTimeout(() => h1El.classList.remove('glow'), 800);
+  }
+
+  clearTimeout(tapTimer);
+  if (tapCount >= 5){
+    tapCount = 0;
+    easterEgg();
+    return;
+  }
+  tapTimer = setTimeout(() => { tapCount = 0; }, 1500);
+}
+
+if (h1El){
+  h1El.addEventListener('click', onTitleTap);
+  h1El.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    onTitleTap();
+  }, { passive:false });
+}
+
+/* Konami-код тоже работает на клавиатуре */
 const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
 let konamiIdx = 0;
 document.addEventListener('keydown', e => {
@@ -1426,11 +1488,7 @@ document.addEventListener('keydown', e => {
     konamiIdx++;
     if (konamiIdx === KONAMI.length){
       konamiIdx = 0;
-      for (let i = 0; i < 14; i++){
-        setTimeout(() => burst(Math.random()*innerWidth, Math.random()*innerHeight*0.6, 30), i * 180);
-      }
-      chime();
-      showToast('🎉 Секретный уровень: люблю тебя, Саша! 🎉');
+      easterEgg();
     }
   } else konamiIdx = 0;
 });
