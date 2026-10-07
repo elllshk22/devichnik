@@ -483,7 +483,7 @@ img{max-width:100%; display:block}
   transition:transform .25s, box-shadow .25s;
 }
 .music-btn:hover{transform:scale(1.08)}
-.music-btn.playing{animation:spin 6s linear infinite}
+.music-btn.playing{animation:spin 8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .music-btn .pulse{
   position:absolute; inset:-6px; border-radius:50%;
@@ -537,7 +537,7 @@ img{max-width:100%; display:block}
 <canvas id="confetti"></canvas>
 <div id="bubbles" aria-hidden="true"></div>
 
-<button class="music-btn" id="musicBtn" aria-label="Включить музыку" title="Happy Birthday 🎂">
+<button class="music-btn" id="musicBtn" aria-label="Выключить музыку" title="Романтичная мелодия">
   <span id="musicIcon">🎵</span>
   <span class="pulse" aria-hidden="true"></span>
 </button>
@@ -570,7 +570,6 @@ img{max-width:100%; display:block}
     <div class="deco-line"><span></span><em>✦</em><em>✦</em><em>✦</em><span></span></div>
   </header>
 
-  <!-- ПРОГРЕСС -->
   <div class="progress-wrap" id="progressWrap">
     <div class="progress-text">Лопни все шарики, чтобы открыть письмо · <b><span id="poppedCount">0</span> / <span id="totalCount">0</span></b></div>
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -624,12 +623,10 @@ img{max-width:100%; display:block}
 
 </section>
 
-<!-- ФОТО-ЛЕНТА №1 -->
 <section class="photo-strip">
   <div class="photo-strip-inner" id="strip1"></div>
 </section>
 
-<!-- ДЕТАЛИ -->
 <section class="details" id="details">
 <div class="details-inner">
 
@@ -644,12 +641,10 @@ img{max-width:100%; display:block}
 </div>
 </section>
 
-<!-- ФОТО-ЛЕНТА №2 -->
 <section class="photo-strip">
   <div class="photo-strip-inner" id="strip2"></div>
 </section>
 
-<!-- ОТСЧЁТ -->
 <section class="details" style="border-top:0;">
 <div class="details-inner">
   <h2>До девичника осталось</h2>
@@ -662,12 +657,10 @@ img{max-width:100%; display:block}
 </div>
 </section>
 
-<!-- ФОТО-ЛЕНТА №3 -->
 <section class="photo-strip">
   <div class="photo-strip-inner" id="strip3"></div>
 </section>
 
-<!-- КАРТА / ДРЕСС-КОД / ЧЕК-ЛИСТ -->
 <section class="details" style="border-top:0;">
 <div class="details-inner">
 
@@ -702,7 +695,6 @@ img{max-width:100%; display:block}
 </div>
 </section>
 
-<!-- ПОДРУЖКИ -->
 <section class="girls-block">
   <div class="girls-inner">
     <h2 class="girls-title">Наши девчонки</h2>
@@ -745,7 +737,7 @@ const PHOTOS_GIRLS = [
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* ========================================================= */
 
-/* ---------- ЗВУК ---------- */
+/* ---------- ЗВУК ЭФФЕКТЫ ---------- */
 let AC = null;
 function audio(){
   if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
@@ -810,7 +802,6 @@ function chime(){
     o.connect(g).connect(ctx.destination); o.start(t + i*0.09); o.stop(t + i*0.09 + 0.8);
   });
 }
-// Глухой "тук" для заблокированного конверта
 function thud(){
   if (reduce) return;
   const ctx = audio(), t = ctx.currentTime;
@@ -823,64 +814,177 @@ function thud(){
   o.connect(g).connect(ctx.destination); o.start(t); o.stop(t + 0.16);
 }
 
-/* ---------- МУЗЫКА Happy Birthday ---------- */
+/* ---------- РОМАНТИЧНАЯ ФОНОВАЯ МУЗЫКА ----------
+   Генеративный синтез, играет бесконечно.
+   Аккорды Am – F – C – G (классика романтики).
+   Арпеджио + мягкие пэды + редкие "капли" (bell).
+*/
 let musicOn = false;
 let musicTimer = null;
-const NOTE = {
-  C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00,
-  A4:440.00, Bb4:466.16, C5:523.25, D5:587.33, F5:698.46, G5:783.99, A5:880.00
+let masterGain = null;
+
+// ноты
+const N = {
+  A2:110.00, C3:130.81, E3:164.81, F3:174.61, G3:196.00,
+  A3:220.00, B3:246.94, C4:261.63, D4:293.66, E4:329.63,
+  F4:349.23, G4:392.00, A4:440.00, B4:493.88, C5:523.25,
+  D5:587.33, E5:659.25, F5:698.46, G5:783.99, A5:880.00
 };
-const MELODY = [
-  [NOTE.C4, 0.5],[NOTE.C4, 0.5],[NOTE.D4, 1],[NOTE.C4, 1],[NOTE.F4, 1],[NOTE.E4, 2],
-  [NOTE.C4, 0.5],[NOTE.C4, 0.5],[NOTE.D4, 1],[NOTE.C4, 1],[NOTE.G4, 1],[NOTE.F4, 2],
-  [NOTE.C4, 0.5],[NOTE.C4, 0.5],[NOTE.C5, 1],[NOTE.A4, 1],[NOTE.F4, 1],[NOTE.E4, 1],[NOTE.D4, 1],
-  [NOTE.Bb4, 0.5],[NOTE.Bb4, 0.5],[NOTE.A4, 1],[NOTE.F4, 1],[NOTE.G4, 1],[NOTE.F4, 2],
-  [0, 2]
+
+// 4 аккорда по 4 ноты — арпеджио
+const CHORDS = [
+  [N.A3, N.C4, N.E4, N.A4],   // Am
+  [N.F3, N.A3, N.C4, N.F4],   // F
+  [N.C3, N.E3, N.G3, N.C4],   // C
+  [N.G3, N.B3, N.D4, N.G4]    // G
 ];
-function playNote(ctx, dest, freq, startTime, duration, gainLevel = 0.12){
-  if (!freq) return;
+
+// мягкая пэд-нота на аккорд (басовая)
+const PADS = [N.A2, N.F3, N.C3, N.G3];
+
+function playTone(ctx, dest, freq, start, dur, type='sine', vol=0.06){
   const o = ctx.createOscillator();
   const g = ctx.createGain();
-  o.type = 'triangle'; o.frequency.value = freq;
-  g.gain.setValueAtTime(0.0001, startTime);
-  g.gain.exponentialRampToValueAtTime(gainLevel, startTime + 0.03);
-  g.gain.exponentialRampToValueAtTime(0.0001, startTime + duration * 0.95);
-  o.connect(g).connect(dest); o.start(startTime); o.stop(startTime + duration + 0.05);
+  o.type = type;
+  o.frequency.value = freq;
+  g.gain.setValueAtTime(0.0001, start);
+  g.gain.exponentialRampToValueAtTime(vol, start + 0.05);
+  g.gain.exponentialRampToValueAtTime(0.0001, start + dur * 0.9);
+  o.connect(g).connect(dest);
+  o.start(start);
+  o.stop(start + dur + 0.1);
 }
-function scheduleMelody(){
+
+function playPad(ctx, dest, freq, start, dur){
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  const filt = ctx.createBiquadFilter();
+  filt.type = 'lowpass';
+  filt.frequency.value = 700;
+  o.type = 'sine';
+  o.frequency.value = freq;
+  g.gain.setValueAtTime(0.0001, start);
+  g.gain.linearRampToValueAtTime(0.045, start + 0.8);
+  g.gain.linearRampToValueAtTime(0.0001, start + dur);
+  o.connect(filt).connect(g).connect(dest);
+  o.start(start);
+  o.stop(start + dur + 0.3);
+}
+
+// длительность одной "фразы" (одного прохода по 4 аккордам)
+const CHORD_DUR = 3.2; // сек на аккорд
+const BARS = 4;        // 4 аккорда в цикле
+
+function scheduleMusic(){
   if (!musicOn) return;
   const ctx = audio();
-  const master = ctx.createGain(); master.gain.value = 0.9;
-  master.connect(ctx.destination);
-  const beatSec = 0.5;
-  let t = ctx.currentTime + 0.05; let total = 0;
-  for (const [freq, beats] of MELODY){
-    const dur = beats * beatSec;
-    playNote(ctx, master, freq, t, dur);
-    t += dur; total += dur;
+  if (!masterGain){
+    masterGain = ctx.createGain();
+    masterGain.gain.value = 0.9;
+    // общий реверб для мягкости
+    const conv = ctx.createConvolver();
+    const len = ctx.sampleRate * 1.8;
+    const impulse = ctx.createBuffer(2, len, ctx.sampleRate);
+    for (let ch = 0; ch < 2; ch++){
+      const d = impulse.getChannelData(ch);
+      for (let i = 0; i < len; i++){
+        d[i] = (Math.random()*2-1) * Math.pow(1 - i/len, 2.2);
+      }
+    }
+    conv.buffer = impulse;
+    const wet = ctx.createGain(); wet.gain.value = 0.28;
+    masterGain.connect(ctx.destination);
+    masterGain.connect(conv);
+    conv.connect(wet).connect(ctx.destination);
   }
-  musicTimer = setTimeout(scheduleMelody, (total + 1.5) * 1000);
+  let t = ctx.currentTime + 0.1;
+  const cycleDur = CHORD_DUR * BARS;
+
+  // арпеджио — по 8 нот на аккорд
+  for (let bar = 0; bar < BARS; bar++){
+    const chord = CHORDS[bar];
+    const padFreq = PADS[bar];
+    playPad(ctx, masterGain, padFreq, t, CHORD_DUR * 1.05);
+
+    for (let step = 0; step < 8; step++){
+      const note = chord[step % chord.length];
+      // немного поднимаем на второй половине — как бы "вопрос-ответ"
+      const octave = step >= 4 ? 2 : 1;
+      playTone(ctx, masterGain, note * octave, t + step * (CHORD_DUR / 8), 0.55, 'sine', 0.045);
+    }
+    // редкие высокие "капли" поверх
+    if (Math.random() < 0.6){
+      const drops = [N.E5, N.G5, N.A5, N.C5, N.D5];
+      const f = drops[(Math.random()*drops.length)|0];
+      playTone(ctx, masterGain, f, t + CHORD_DUR * (0.3 + Math.random()*0.5), 1.4, 'sine', 0.02);
+    }
+    t += CHORD_DUR;
+  }
+  musicTimer = setTimeout(scheduleMusic, (cycleDur - 0.2) * 1000);
 }
+
 const musicBtn = document.getElementById('musicBtn');
 const musicIcon = document.getElementById('musicIcon');
+
+function startMusic(){
+  if (musicOn) return;
+  musicOn = true;
+  audio(); // создать/resume ctx
+  musicBtn.classList.add('playing');
+  musicIcon.textContent = '⏸';
+  musicBtn.setAttribute('aria-label','Выключить музыку');
+  scheduleMusic();
+}
+function stopMusic(){
+  musicOn = false;
+  musicBtn.classList.remove('playing');
+  musicIcon.textContent = '🎵';
+  musicBtn.setAttribute('aria-label','Включить музыку');
+  if (musicTimer){ clearTimeout(musicTimer); musicTimer = null; }
+  if (masterGain){
+    try {
+      const ctx = audio();
+      masterGain.gain.setTargetAtTime(0, ctx.currentTime, 0.15);
+    } catch(e){}
+    const oldGain = masterGain;
+    setTimeout(() => { try { oldGain.disconnect(); } catch(e){} }, 400);
+    masterGain = null;
+  }
+}
 musicBtn.addEventListener('click', () => {
-  musicOn = !musicOn;
-  if (musicOn){
-    audio();
-    musicBtn.classList.add('playing');
-    musicIcon.textContent = '⏸';
-    musicBtn.setAttribute('aria-label','Выключить музыку');
-    scheduleMelody();
-    showToast('С днём рождения, Саша! 🎂🎵');
-    for (let i = 0; i < 4; i++){
-      setTimeout(() => burst(Math.random()*innerWidth, innerHeight*0.4, 26), i*180);
-    }
-  } else {
-    musicBtn.classList.remove('playing');
-    musicIcon.textContent = '🎵';
-    musicBtn.setAttribute('aria-label','Включить музыку');
-    if (musicTimer) { clearTimeout(musicTimer); musicTimer = null; }
-    if (AC) { try { AC.suspend(); AC.resume(); } catch(e){} }
+  if (musicOn) stopMusic(); else startMusic();
+});
+
+/* --- Автозапуск при открытии --- */
+function tryAutostart(){
+  const ctx = audio();
+  if (ctx.state === 'running'){
+    startMusic();
+    return true;
+  }
+  // ctx suspended — попробуем resume; обычно требует user gesture
+  return ctx.resume().then(() => {
+    if (ctx.state === 'running'){ startMusic(); return true; }
+    return false;
+  }).catch(() => false);
+}
+
+// 1) Пытаемся сразу
+tryAutostart().then(ok => {
+  if (!ok){
+    // 2) При первом взаимодействии — включаем
+    const kick = () => {
+      tryAutostart().then(() => {
+        document.removeEventListener('click', kick);
+        document.removeEventListener('touchstart', kick);
+        document.removeEventListener('keydown', kick);
+        document.removeEventListener('scroll', kick);
+      });
+    };
+    document.addEventListener('click', kick, { once: true, passive: true });
+    document.addEventListener('touchstart', kick, { once: true, passive: true });
+    document.addEventListener('keydown', kick, { once: true });
+    document.addEventListener('scroll', kick, { once: true, passive: true });
   }
 });
 
@@ -931,8 +1035,8 @@ function loop(){
 /* ---------- ПУЗЫРЬКИ ---------- */
 if (!reduce){
   const bb = document.getElementById('bubbles');
-  const N = innerWidth < 520 ? 12 : 22;
-  for (let i = 0; i < N; i++){
+  const N2 = innerWidth < 520 ? 12 : 22;
+  for (let i = 0; i < N2; i++){
     const el = document.createElement('div');
     el.className = 'bubble';
     const sz = 8 + Math.random()*30;
@@ -945,7 +1049,7 @@ if (!reduce){
   }
 }
 
-/* ---------- ШАРИКИ (с блокировкой конверта) ---------- */
+/* ---------- ШАРИКИ ---------- */
 const GRADS = [
   ['#ff9eb4','#8b1c33'], ['#e8506f','#a41e3e'], ['#c86b8f','#8b1c33'],
   ['#ffc2d1','#d92048'], ['#d9a7b4','#8b1c33'], ['#f7a8bd','#a41e3e'],
@@ -967,7 +1071,6 @@ const letterBalloons = [];
   wordEl.appendChild(b); letterBalloons.push(b);
 });
 
-// прогресс
 document.getElementById('totalCount').textContent = letterBalloons.length;
 const progressFill = document.getElementById('progressFill');
 const poppedCountEl = document.getElementById('poppedCount');
@@ -989,7 +1092,6 @@ function popBalloon(el){
   poppedCountEl.textContent = popped;
   progressFill.style.width = (popped / letterBalloons.length * 100) + '%';
 
-  // осталось мало — подбадриваем
   const remaining = letterBalloons.length - popped;
   if (remaining === 3) showToast('Осталось всего 3 шарика! 🎈');
   if (remaining === 1) showToast('Последний шарик! 🎈');
@@ -1015,14 +1117,11 @@ function unlockEnvelope(){
 
   burst(innerWidth/2, innerHeight/2, 70);
   chime();
-
-  // скрываем прогресс
   document.getElementById('progressWrap').classList.add('hide');
 
-  // пасхалка: успел за 5 секунд
   const elapsed = Date.now() - firstPopTime;
   if (elapsed < 5000){
-    showToast('⚡ Вау! Ты справилась за ' + (elapsed/1000).toFixed(1) + ' сек! Суперскорость!');
+    showToast('⚡ Вау! Ты справилась за ' + (elapsed/1000).toFixed(1) + ' сек!');
     for (let i = 0; i < 5; i++){
       setTimeout(() => burst(Math.random()*innerWidth, innerHeight*0.5, 30), i*150);
     }
@@ -1039,7 +1138,6 @@ let opened = false;
 
 function openEnvelope(){
   if (!unlocked){
-    // блок: трясём и показываем что закрыто
     envelope.classList.remove('shake');
     void envelope.offsetWidth;
     envelope.classList.add('shake');
@@ -1155,15 +1253,12 @@ function makeCouplePhoto(src, tilt){
   return d;
 }
 
-const coupleIdx1 = [0,1,2];
-const coupleIdx2 = [3,4,5];
-const coupleIdx3 = [6,7];
 const strip1El = document.getElementById('strip1');
 const strip2El = document.getElementById('strip2');
 const strip3El = document.getElementById('strip3');
-coupleIdx1.forEach((i, k) => strip1El.appendChild(makeCouplePhoto(PHOTOS_COUPLE[i], [-9, 7, -6][k])));
-coupleIdx2.forEach((i, k) => strip2El.appendChild(makeCouplePhoto(PHOTOS_COUPLE[i], [8, -10, 6][k])));
-coupleIdx3.forEach((i, k) => strip3El.appendChild(makeCouplePhoto(PHOTOS_COUPLE[i], [-7, 9][k])));
+[0,1,2].forEach((i, k) => strip1El.appendChild(makeCouplePhoto(PHOTOS_COUPLE[i], [-9, 7, -6][k])));
+[3,4,5].forEach((i, k) => strip2El.appendChild(makeCouplePhoto(PHOTOS_COUPLE[i], [8, -10, 6][k])));
+[6,7].forEach((i, k) => strip3El.appendChild(makeCouplePhoto(PHOTOS_COUPLE[i], [-7, 9][k])));
 
 const TILTS = [-11, 9, 7, -8];
 const heroIdx = [0,1,2,3];
