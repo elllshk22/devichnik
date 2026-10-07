@@ -24,6 +24,34 @@ img{max-width:100%; display:block}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:9999}
 #bubbles{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
 
+/* ============ БЛОКИРОВКА ПРОКРУТКИ ============ */
+html.no-scroll, body.no-scroll{
+  overflow:hidden !important;
+  height:100vh;
+  position:fixed;
+  width:100%;
+  touch-action:none;
+  overscroll-behavior:none;
+}
+.scroll-hint{
+  position:fixed; left:50%; bottom:22px; transform:translate(-50%,140%);
+  z-index:9997;
+  font-family:'Playfair Display',serif; font-style:italic;
+  color:#fff; background:rgba(139,28,51,.9);
+  padding:10px 22px; border-radius:999px; font-size:14px;
+  box-shadow:0 14px 34px rgba(139,28,51,.45);
+  transition:transform .6s cubic-bezier(.2,1.4,.4,1);
+  pointer-events:none;
+}
+.scroll-hint.show{transform:translate(-50%,0)}
+.scroll-hint .arrow{
+  display:inline-block; animation:bounceArrow 1.2s ease-in-out infinite;
+}
+@keyframes bounceArrow{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(4px)}
+}
+
 .bubble{
   position:absolute; bottom:-80px; border-radius:50%;
   background:radial-gradient(circle at 32% 28%, rgba(255,255,255,.95), rgba(255,180,210,.4) 55%, transparent 72%);
@@ -142,12 +170,6 @@ img{max-width:100%; display:block}
   background:rgba(139,28,51,.5); transform:translateX(-50%);
 }
 .balloon.pop{transform:scale(1.5); opacity:0; pointer-events:none}
-.balloon.shake{animation:shake .4s}
-@keyframes shake{
-  0%,100%{transform:translateX(0)}
-  25%{transform:translateX(-4px) rotate(-4deg)}
-  75%{transform:translateX(4px) rotate(4deg)}
-}
 
 /* HERO-СЕТКА */
 .hero-grid{
@@ -605,12 +627,12 @@ img{max-width:100%; display:block}
     <p class="card-kicker">Только для своих 💗</p>
     <h1>Bachelorette<span class="script">Party!</span></h1>
     <p class="to">Дорогая <b>Александра</b>!</p>
-    <p class="sub">Попаримся, поплаваем в чану, посмеёмся и ни о чём не подумаем. Ты — главный человек этого вечера.</p>
+    <p class="sub">Попаримся, поплаваем в чану, посмеёмся, поедим вкусного, порисуем и ни о чём не подумаем. Ты — главный человек этого вечера.</p>
 
     <div class="facts">
       <div class="fact"><span>📅</span><div><small>когда</small><b>17 октября, 16:00</b></div></div>
       <div class="fact"><span>📍</span><div><small>где</small><b>г. Казань, ул. Радиальная, 23/20</b></div></div>
-      <div class="fact"><span>🧖‍♀️</span><div><small>формат</small><b>Баня · сауна · чан</b></div></div>
+      <div class="fact"><span>🧖‍♀️</span><div><small>формат</small><b>Баня · сауна · чан · конкурсы · еда · творчество</b></div></div>
       <div class="fact"><span>👙</span><div><small>дресс-код</small><b>Купальник и хорошее настроение</b></div></div>
     </div>
 
@@ -635,7 +657,9 @@ img{max-width:100%; display:block}
     <div class="vibe-card"><div class="ico">🧖‍♀️</div><h3>Баня</h3><p>Настоящая русская, с веничком и травяным чаем</p></div>
     <div class="vibe-card"><div class="ico">🔥</div><h3>Сауна</h3><p>Прогреемся как следует и обсудим всё на свете</p></div>
     <div class="vibe-card"><div class="ico">🛁</div><h3>Чан</h3><p>Тёплая вода, звёзды и разговоры до ночи</p></div>
-    <div class="vibe-card"><div class="ico">🍓</div><h3>Вкусности</h3><p>Фрукты, сыр, что-нибудь сладенькое и просекко</p></div>
+    <div class="vibe-card"><div class="ico">🎉</div><h3>Конкурсы</h3><p>Игры, викторины и много смеха</p></div>
+    <div class="vibe-card"><div class="ico">🍓</div><h3>Еда</h3><p>Фрукты, сыр, сладенькое и просекко</p></div>
+    <div class="vibe-card"><div class="ico">🎨</div><h3>Творчество</h3><p>Рисуем, клеим, делаем что-то красивое на память</p></div>
   </div>
 
 </div>
@@ -715,6 +739,7 @@ img{max-width:100%; display:block}
 </div>
 
 <div class="secret-toast" id="toast"></div>
+<div class="scroll-hint" id="scrollHint">прокрути вниз <span class="arrow">↓</span></div>
 
 <script>
 /* ======================= НАСТРОЙКИ ======================= */
@@ -737,16 +762,18 @@ const PHOTOS_GIRLS = [
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* ========================================================= */
 
-/* ---------- ЗВУК ЭФФЕКТЫ ---------- */
+/* ============ АУДИО-КОНТЕКСТ (один на всё) ============ */
 let AC = null;
-function audio(){
+function getAudio(){
   if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
   if (AC.state === 'suspended') AC.resume();
   return AC;
 }
+
+/* ============ ЭФФЕКТЫ ============ */
 function popSound(){
   if (reduce) return;
-  const ctx = audio(), t = ctx.currentTime;
+  const ctx = getAudio(), t = ctx.currentTime;
   const len = Math.floor(ctx.sampleRate * 0.12);
   const buf = ctx.createBuffer(1, len, ctx.sampleRate);
   const d = buf.getChannelData(0);
@@ -765,7 +792,7 @@ function popSound(){
 }
 function whoosh(){
   if (reduce) return;
-  const ctx = audio(), t = ctx.currentTime;
+  const ctx = getAudio(), t = ctx.currentTime;
   const len = Math.floor(ctx.sampleRate * 0.5);
   const buf = ctx.createBuffer(1, len, ctx.sampleRate);
   const d = buf.getChannelData(0);
@@ -780,7 +807,7 @@ function whoosh(){
 }
 function ding(){
   if (reduce) return;
-  const ctx = audio(), t = ctx.currentTime;
+  const ctx = getAudio(), t = ctx.currentTime;
   [880, 1320].forEach((f, i) => {
     const o = ctx.createOscillator(); o.type='sine'; o.frequency.value=f;
     const g = ctx.createGain();
@@ -792,7 +819,7 @@ function ding(){
 }
 function chime(){
   if (reduce) return;
-  const ctx = audio(), t = ctx.currentTime;
+  const ctx = getAudio(), t = ctx.currentTime;
   [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
     const o = ctx.createOscillator(); o.type='triangle'; o.frequency.value=f;
     const g = ctx.createGain();
@@ -804,7 +831,7 @@ function chime(){
 }
 function thud(){
   if (reduce) return;
-  const ctx = audio(), t = ctx.currentTime;
+  const ctx = getAudio(), t = ctx.currentTime;
   const o = ctx.createOscillator(); o.type='sine';
   o.frequency.setValueAtTime(140, t);
   o.frequency.exponentialRampToValueAtTime(60, t + 0.12);
@@ -814,48 +841,41 @@ function thud(){
   o.connect(g).connect(ctx.destination); o.start(t); o.stop(t + 0.16);
 }
 
-/* ---------- РОМАНТИЧНАЯ ФОНОВАЯ МУЗЫКА ----------
-   Генеративный синтез, играет бесконечно.
-   Аккорды Am – F – C – G (классика романтики).
-   Арпеджио + мягкие пэды + редкие "капли" (bell).
-*/
+/* ============ РОМАНТИЧНАЯ МУЗЫКА ============ */
 let musicOn = false;
 let musicTimer = null;
 let masterGain = null;
+let padGain = null;
 
-// ноты
 const N = {
   A2:110.00, C3:130.81, E3:164.81, F3:174.61, G3:196.00,
   A3:220.00, B3:246.94, C4:261.63, D4:293.66, E4:329.63,
   F4:349.23, G4:392.00, A4:440.00, B4:493.88, C5:523.25,
   D5:587.33, E5:659.25, F5:698.46, G5:783.99, A5:880.00
 };
-
-// 4 аккорда по 4 ноты — арпеджио
 const CHORDS = [
-  [N.A3, N.C4, N.E4, N.A4],   // Am
-  [N.F3, N.A3, N.C4, N.F4],   // F
-  [N.C3, N.E3, N.G3, N.C4],   // C
-  [N.G3, N.B3, N.D4, N.G4]    // G
+  [N.A3, N.C4, N.E4, N.A4],
+  [N.F3, N.A3, N.C4, N.F4],
+  [N.C3, N.E3, N.G3, N.C4],
+  [N.G3, N.B3, N.D4, N.G4]
 ];
-
-// мягкая пэд-нота на аккорд (басовая)
 const PADS = [N.A2, N.F3, N.C3, N.G3];
 
-function playTone(ctx, dest, freq, start, dur, type='sine', vol=0.06){
+function playTone(dest, freq, start, dur, type, vol){
+  const ctx = AC;
   const o = ctx.createOscillator();
   const g = ctx.createGain();
-  o.type = type;
+  o.type = type || 'sine';
   o.frequency.value = freq;
   g.gain.setValueAtTime(0.0001, start);
-  g.gain.exponentialRampToValueAtTime(vol, start + 0.05);
+  g.gain.exponentialRampToValueAtTime(vol || 0.045, start + 0.05);
   g.gain.exponentialRampToValueAtTime(0.0001, start + dur * 0.9);
   o.connect(g).connect(dest);
   o.start(start);
   o.stop(start + dur + 0.1);
 }
-
-function playPad(ctx, dest, freq, start, dur){
+function playPad(dest, freq, start, dur){
+  const ctx = AC;
   const o = ctx.createOscillator();
   const g = ctx.createGain();
   const filt = ctx.createBiquadFilter();
@@ -871,20 +891,21 @@ function playPad(ctx, dest, freq, start, dur){
   o.stop(start + dur + 0.3);
 }
 
-// длительность одной "фразы" (одного прохода по 4 аккордам)
-const CHORD_DUR = 3.2; // сек на аккорд
-const BARS = 4;        // 4 аккорда в цикле
+const CHORD_DUR = 3.2;
+const BARS = 4;
 
 function scheduleMusic(){
-  if (!musicOn) return;
-  const ctx = audio();
+  if (!musicOn || !AC) return;
+  if (AC.state !== 'running'){
+    musicTimer = setTimeout(scheduleMusic, 300);
+    return;
+  }
   if (!masterGain){
-    masterGain = ctx.createGain();
+    masterGain = AC.createGain();
     masterGain.gain.value = 0.9;
-    // общий реверб для мягкости
-    const conv = ctx.createConvolver();
-    const len = ctx.sampleRate * 1.8;
-    const impulse = ctx.createBuffer(2, len, ctx.sampleRate);
+    const conv = AC.createConvolver();
+    const len = AC.sampleRate * 1.8;
+    const impulse = AC.createBuffer(2, len, AC.sampleRate);
     for (let ch = 0; ch < 2; ch++){
       const d = impulse.getChannelData(ch);
       for (let i = 0; i < len; i++){
@@ -892,31 +913,28 @@ function scheduleMusic(){
       }
     }
     conv.buffer = impulse;
-    const wet = ctx.createGain(); wet.gain.value = 0.28;
-    masterGain.connect(ctx.destination);
+    const wet = AC.createGain(); wet.gain.value = 0.28;
+    masterGain.connect(AC.destination);
     masterGain.connect(conv);
-    conv.connect(wet).connect(ctx.destination);
+    conv.connect(wet).connect(AC.destination);
   }
-  let t = ctx.currentTime + 0.1;
+
+  let t = AC.currentTime + 0.1;
   const cycleDur = CHORD_DUR * BARS;
 
-  // арпеджио — по 8 нот на аккорд
   for (let bar = 0; bar < BARS; bar++){
     const chord = CHORDS[bar];
-    const padFreq = PADS[bar];
-    playPad(ctx, masterGain, padFreq, t, CHORD_DUR * 1.05);
+    playPad(masterGain, PADS[bar], t, CHORD_DUR * 1.05);
 
     for (let step = 0; step < 8; step++){
       const note = chord[step % chord.length];
-      // немного поднимаем на второй половине — как бы "вопрос-ответ"
       const octave = step >= 4 ? 2 : 1;
-      playTone(ctx, masterGain, note * octave, t + step * (CHORD_DUR / 8), 0.55, 'sine', 0.045);
+      playTone(masterGain, note * octave, t + step * (CHORD_DUR / 8), 0.55, 'sine', 0.045);
     }
-    // редкие высокие "капли" поверх
     if (Math.random() < 0.6){
       const drops = [N.E5, N.G5, N.A5, N.C5, N.D5];
       const f = drops[(Math.random()*drops.length)|0];
-      playTone(ctx, masterGain, f, t + CHORD_DUR * (0.3 + Math.random()*0.5), 1.4, 'sine', 0.02);
+      playTone(masterGain, f, t + CHORD_DUR * (0.3 + Math.random()*0.5), 1.4, 'sine', 0.02);
     }
     t += CHORD_DUR;
   }
@@ -928,8 +946,14 @@ const musicIcon = document.getElementById('musicIcon');
 
 function startMusic(){
   if (musicOn) return;
+  getAudio();
+  if (AC.state === 'suspended'){
+    AC.resume().then(() => {
+      if (AC.state === 'running') startMusic();
+    });
+    return;
+  }
   musicOn = true;
-  audio(); // создать/resume ctx
   musicBtn.classList.add('playing');
   musicIcon.textContent = '⏸';
   musicBtn.setAttribute('aria-label','Выключить музыку');
@@ -943,8 +967,7 @@ function stopMusic(){
   if (musicTimer){ clearTimeout(musicTimer); musicTimer = null; }
   if (masterGain){
     try {
-      const ctx = audio();
-      masterGain.gain.setTargetAtTime(0, ctx.currentTime, 0.15);
+      masterGain.gain.setTargetAtTime(0, AC.currentTime, 0.15);
     } catch(e){}
     const oldGain = masterGain;
     setTimeout(() => { try { oldGain.disconnect(); } catch(e){} }, 400);
@@ -955,40 +978,54 @@ musicBtn.addEventListener('click', () => {
   if (musicOn) stopMusic(); else startMusic();
 });
 
-/* --- Автозапуск при открытии --- */
-function tryAutostart(){
-  const ctx = audio();
-  if (ctx.state === 'running'){
+/* ---- Автозапуск: сначала пытаемся сразу, потом при первом действии ---- */
+function attemptAutostart(){
+  getAudio();
+  if (AC.state === 'running'){
     startMusic();
     return true;
   }
-  // ctx suspended — попробуем resume; обычно требует user gesture
-  return ctx.resume().then(() => {
-    if (ctx.state === 'running'){ startMusic(); return true; }
-    return false;
-  }).catch(() => false);
+  AC.resume().then(() => {
+    if (AC.state === 'running') startMusic();
+  }).catch(()=>{});
+  return false;
 }
 
-// 1) Пытаемся сразу
-tryAutostart().then(ok => {
-  if (!ok){
-    // 2) При первом взаимодействии — включаем
-    const kick = () => {
-      tryAutostart().then(() => {
-        document.removeEventListener('click', kick);
-        document.removeEventListener('touchstart', kick);
-        document.removeEventListener('keydown', kick);
-        document.removeEventListener('scroll', kick);
-      });
-    };
-    document.addEventListener('click', kick, { once: true, passive: true });
-    document.addEventListener('touchstart', kick, { once: true, passive: true });
-    document.addEventListener('keydown', kick, { once: true });
-    document.addEventListener('scroll', kick, { once: true, passive: true });
-  }
+// старт при загрузке
+window.addEventListener('load', () => {
+  attemptAutostart();
 });
 
-/* ---------- КОНФЕТТИ ---------- */
+// подстраховка на первое действие пользователя
+function onceStart(){
+  if (musicOn) return;
+  attemptAutostart();
+}
+['click','touchstart','keydown','scroll','mousemove','pointerdown'].forEach(ev => {
+  document.addEventListener(ev, onceStart, { once:false, passive:true });
+});
+// но не спамим: как только музыка включилась — снимаем
+const musicCheck = setInterval(() => {
+  if (musicOn){
+    ['click','touchstart','keydown','scroll','mousemove','pointerdown'].forEach(ev => {
+      document.removeEventListener(ev, onceStart);
+    });
+    clearInterval(musicCheck);
+  }
+}, 500);
+
+/* ============ БЛОКИРОВКА ПРОКРУТКИ ============ */
+document.documentElement.classList.add('no-scroll');
+document.body.classList.add('no-scroll');
+let savedScrollY = 0;
+
+function unlockScroll(){
+  document.documentElement.classList.remove('no-scroll');
+  document.body.classList.remove('no-scroll');
+  window.scrollTo(0, savedScrollY);
+}
+
+/* ============ КОНФЕТТИ ============ */
 const cvs = document.getElementById('confetti');
 const cx = cvs.getContext('2d');
 let parts = [];
@@ -1001,13 +1038,14 @@ function sizeCanvas(){
 sizeCanvas(); addEventListener('resize', sizeCanvas);
 
 const COLORS = ['#d92048','#8b1c33','#ffb8ce','#fdeef2','#c9a227','#ff5fa8','#e8506f'];
-function burst(x, y, n = 28){
+function burst(x, y, n){
+  n = n || 28;
   if (reduce) return;
   for (let i = 0; i < n; i++){
     const a = Math.random() * Math.PI * 2;
     const sp = 2 + Math.random() * 6.5;
     parts.push({
-      x, y, vx: Math.cos(a)*sp, vy: Math.sin(a)*sp - 3.5,
+      x: x, y: y, vx: Math.cos(a)*sp, vy: Math.sin(a)*sp - 3.5,
       g: 0.17 + Math.random()*0.12, s: 4 + Math.random()*7,
       r: Math.random()*Math.PI, vr: (Math.random()-.5)*.32,
       c: COLORS[(Math.random()*COLORS.length)|0], life: 1, round: Math.random()<.35
@@ -1032,7 +1070,7 @@ function loop(){
   else { running = false; cx.clearRect(0, 0, innerWidth, innerHeight); }
 }
 
-/* ---------- ПУЗЫРЬКИ ---------- */
+/* ============ ПУЗЫРЬКИ ============ */
 if (!reduce){
   const bb = document.getElementById('bubbles');
   const N2 = innerWidth < 520 ? 12 : 22;
@@ -1049,7 +1087,7 @@ if (!reduce){
   }
 }
 
-/* ---------- ШАРИКИ ---------- */
+/* ============ ШАРИКИ ============ */
 const GRADS = [
   ['#ff9eb4','#8b1c33'], ['#e8506f','#a41e3e'], ['#c86b8f','#8b1c33'],
   ['#ffc2d1','#d92048'], ['#d9a7b4','#8b1c33'], ['#f7a8bd','#a41e3e'],
@@ -1059,11 +1097,11 @@ const wordEl = document.getElementById('word');
 const letterBalloons = [];
 
 [...WORD].forEach((ch, i) => {
-  const [c1, c2] = GRADS[i % GRADS.length];
+  const g = GRADS[i % GRADS.length];
   const b = document.createElement('button');
   b.className = 'balloon'; b.type = 'button';
-  b.innerHTML = `<span class="body"><span class="letter">${ch}</span></span><span class="string"></span>`;
-  b.style.setProperty('--c1', c1); b.style.setProperty('--c2', c2);
+  b.innerHTML = '<span class="body"><span class="letter">' + ch + '</span></span><span class="string"></span>';
+  b.style.setProperty('--c1', g[0]); b.style.setProperty('--c2', g[1]);
   b.style.setProperty('--rot', (Math.random()*10-5).toFixed(1)+'deg');
   b.style.setProperty('--delay', (Math.random()*2).toFixed(2)+'s');
   b.style.marginTop = (Math.random()*22)+'px';
@@ -1130,7 +1168,7 @@ function unlockEnvelope(){
   }
 }
 
-/* ---------- КОНВЕРТ ---------- */
+/* ============ КОНВЕРТ ============ */
 const envelope = document.getElementById('envelope');
 const wrap = document.getElementById('envelopeWrap');
 const card = document.getElementById('card');
@@ -1151,12 +1189,21 @@ function openEnvelope(){
   whoosh();
   envelope.classList.add('open');
   envelope.classList.remove('unlocked');
+
   setTimeout(() => {
     wrap.classList.add('gone');
     card.classList.add('show');
     const r = card.getBoundingClientRect();
     burst(r.left + r.width/2, r.top + 80, 70);
     chime();
+
+    setTimeout(() => {
+      unlockScroll();
+      const cardTop = card.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: cardTop - 30, behavior: 'smooth' });
+      setTimeout(() => showScrollHint(), 1500);
+    }, 250);
+
   }, 620);
 }
 envelope.addEventListener('click', openEnvelope);
@@ -1164,6 +1211,23 @@ envelope.addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openEnvelope(); }
 });
 
+/* ============ ПОДСКАЗКА "ПРОКРУТИ ВНИЗ" ============ */
+let scrollHintShown = false;
+let scrollHintTimer = null;
+function showScrollHint(){
+  if (scrollHintShown) return;
+  scrollHintShown = true;
+  const el = document.getElementById('scrollHint');
+  el.classList.add('show');
+  clearTimeout(scrollHintTimer);
+  scrollHintTimer = setTimeout(() => el.classList.remove('show'), 4000);
+}
+window.addEventListener('scroll', () => {
+  const el = document.getElementById('scrollHint');
+  if (el.classList.contains('show')) el.classList.remove('show');
+}, { passive:true });
+
+/* ============ КНОПКИ В КАРТОЧКЕ ============ */
 document.getElementById('toDetails').addEventListener('click', () => {
   document.getElementById('details').scrollIntoView({ behavior:'smooth' });
   burst(innerWidth/2, innerHeight*0.7, 40);
@@ -1186,7 +1250,7 @@ document.getElementById('ics').addEventListener('click', () => {
     'DTSTAMP:' + dt + 'Z','DTSTART:' + dt,'DTEND:' + end,
     'SUMMARY:Девичник у Саши · Bachelorette Party 💗',
     'LOCATION:' + ADDRESS,
-    'DESCRIPTION:Баня, сауна, чан. Дресс-код: купальник и хорошее настроение.',
+    'DESCRIPTION:Баня, сауна, чан, конкурсы, еда, творчество. Дресс-код: купальник и хорошее настроение.',
     'END:VEVENT','END:VCALENDAR'
   ].join('\r\n');
   const blob = new Blob([ics], { type:'text/calendar' });
@@ -1199,7 +1263,7 @@ document.getElementById('ics').addEventListener('click', () => {
   showToast('Добавлено в календарь 📅');
 });
 
-/* ---------- ОТСЧЁТ ---------- */
+/* ============ ОТСЧЁТ ============ */
 const target = new Date(DATE).getTime();
 const pad = n => String(n).padStart(2,'0');
 function tick(){
@@ -1211,14 +1275,14 @@ function tick(){
 }
 tick(); setInterval(tick, 1000);
 
-/* ---------- ЧЕК-ЛИСТ ---------- */
+/* ============ ЧЕК-ЛИСТ ============ */
 const CHECKLIST = ['Купальник','Полотенце','Тапочки',
   'Любимый чай или что покрепче','Хорошее настроение','Танцевальный плейлист'];
 const checksEl = document.getElementById('checks');
 CHECKLIST.forEach(txt => {
   const d = document.createElement('div');
   d.className = 'check';
-  d.innerHTML = `<span class="box">✓</span><span>${txt}</span>`;
+  d.innerHTML = '<span class="box">✓</span><span>' + txt + '</span>';
   d.addEventListener('click', () => {
     d.classList.toggle('on');
     if (d.classList.contains('on')){
@@ -1230,15 +1294,14 @@ CHECKLIST.forEach(txt => {
   checksEl.appendChild(d);
 });
 
-/* ---------- ФОТО ТИМУРА И САШИ ---------- */
+/* ============ ФОТО ТИМУРА И САШИ ============ */
 function makeCouplePhoto(src, tilt){
   const d = document.createElement('div');
   d.className = 'strip-item';
   d.style.setProperty('--r', tilt + 'deg');
-  d.innerHTML = `
-    <span class="tape"></span>
-    <img src="${src}" alt="Тимур и Саша" loading="lazy"
-         onerror="this.closest('.strip-item').classList.add('no-photo')">`;
+  d.innerHTML = '<span class="tape"></span>' +
+    '<img src="' + src + '" alt="Тимур и Саша" loading="lazy" ' +
+    'onerror="this.closest(\'.strip-item\').classList.add(\'no-photo\')">';
   d.addEventListener('click', () => {
     const r = d.getBoundingClientRect();
     burst(r.left + r.width/2, r.top + r.height/2, 18);
@@ -1266,10 +1329,9 @@ function makePolaroidHero(src, tilt, side){
   const d = document.createElement('div');
   d.className = 'polaroid';
   d.style.setProperty('--r', (tilt * (side === 'right' ? -1 : 1)) + 'deg');
-  d.innerHTML = `
-    <span class="tape"></span>
-    <img src="${src}" alt="Тимур и Саша" loading="lazy"
-         onerror="this.closest('.polaroid').classList.add('no-photo')">`;
+  d.innerHTML = '<span class="tape"></span>' +
+    '<img src="' + src + '" alt="Тимур и Саша" loading="lazy" ' +
+    'onerror="this.closest(\'.polaroid\').classList.add(\'no-photo\')">';
   d.addEventListener('click', () => {
     const r = d.getBoundingClientRect();
     burst(r.left + r.width/2, r.top + r.height/2, 20);
@@ -1290,7 +1352,7 @@ heroIdx.forEach((i, k) => {
   rightBox.appendChild(makePolaroidHero(PHOTOS_COUPLE[i], TILTS[k], 'right'));
 });
 
-/* ---------- ФОТО ПОДРУЖЕК ---------- */
+/* ============ ФОТО ПОДРУЖЕК ============ */
 const GIRL_TILTS = [-6, 5, -4, 7];
 const girlsGrid = document.getElementById('girlsGrid');
 const girlSources = PHOTOS_GIRLS.map(g => g.src);
@@ -1299,11 +1361,10 @@ PHOTOS_GIRLS.forEach((g, i) => {
   const d = document.createElement('div');
   d.className = 'girl-card';
   d.style.setProperty('--r', GIRL_TILTS[i % GIRL_TILTS.length] + 'deg');
-  d.innerHTML = `
-    <span class="tape"></span>
-    <img src="${g.src}" alt="${g.name}" loading="lazy"
-         onerror="this.closest('.girl-card').classList.add('no-photo')">
-    <span class="name">${g.name}</span>`;
+  d.innerHTML = '<span class="tape"></span>' +
+    '<img src="' + g.src + '" alt="' + g.name + '" loading="lazy" ' +
+    'onerror="this.closest(\'.girl-card\').classList.add(\'no-photo\')">' +
+    '<span class="name">' + g.name + '</span>';
   d.addEventListener('click', () => {
     const r = d.getBoundingClientRect();
     burst(r.left + r.width/2, r.top + r.height/2, 24);
@@ -1318,7 +1379,7 @@ PHOTOS_GIRLS.forEach((g, i) => {
   girlsGrid.appendChild(d);
 });
 
-/* ---------- ЛАЙТБОКС ---------- */
+/* ============ ЛАЙТБОКС ============ */
 const lb = document.getElementById('lightbox');
 const lbImg = document.getElementById('lbImg');
 let lbList = [], lbIdx = 0;
@@ -1347,7 +1408,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') lbGo(1);
 });
 
-/* ---------- ТОСТ ---------- */
+/* ============ ТОСТ ============ */
 let toastTimer;
 function showToast(msg){
   const t = document.getElementById('toast');
@@ -1357,7 +1418,7 @@ function showToast(msg){
   toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
 }
 
-/* ---------- ПАСХАЛКА Konami ---------- */
+/* ============ ПАСХАЛКА ============ */
 const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
 let konamiIdx = 0;
 document.addEventListener('keydown', e => {
