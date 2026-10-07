@@ -3,37 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bachelorette Party · Александра</title>
+<title>Девичник у Саши · Bachelorette Party</title>
 <meta name="description" content="Приглашение на девичник 17 октября · Казань · баня, сауна, чан">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500;1,700&family=Great+Vibes&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --cream:#fdeef2;
-  --cream-2:#fbe1e9;
-  --stripe:#f8d5e0;
-  --rose:#ffb8ce;
-  --wine:#8b1c33;
-  --wine-2:#a41e3e;
-  --red:#d92048;
-  --gold:#c9a227;
-  --ink:#5d1024;
+  --cream:#fdeef2; --cream-2:#fbe1e9; --stripe:#f8d5e0;
+  --rose:#ffb8ce; --wine:#8b1c33; --wine-2:#a41e3e;
+  --red:#d92048; --gold:#c9a227; --ink:#5d1024;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  font-family:'Nunito',system-ui,sans-serif;
-  color:var(--ink);
-  background:var(--cream);
-  overflow-x:hidden;
+  font-family:'Nunito',system-ui,sans-serif; color:var(--ink);
+  background:var(--cream); overflow-x:hidden;
 }
 img{max-width:100%; display:block}
-
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:9999}
 #bubbles{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
 
-/* ================= ПУЗЫРЬКИ ================= */
 .bubble{
   position:absolute; bottom:-80px; border-radius:50%;
   background:radial-gradient(circle at 32% 28%, rgba(255,255,255,.95), rgba(255,180,210,.4) 55%, transparent 72%);
@@ -45,58 +35,37 @@ img{max-width:100%; display:block}
   100%{transform:translateY(-120vh) scale(1.3); opacity:0}
 }
 
-/* ================= HERO (первая страница) ================= */
+/* HERO */
 .hero{
-  position:relative;
-  min-height:100svh;
-  padding:22px 16px 60px;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      var(--cream) 0px, var(--cream) 34px,
-      var(--stripe) 34px, var(--stripe) 68px
-    );
-  display:flex; flex-direction:column;
-  overflow:hidden;
+  position:relative; min-height:100svh; padding:22px 16px 60px;
+  background:repeating-linear-gradient(
+    90deg,
+    var(--cream) 0px, var(--cream) 34px,
+    var(--stripe) 34px, var(--stripe) 68px);
+  display:flex; flex-direction:column; overflow:hidden;
 }
-/* виньетка сверху и снизу */
 .hero::before, .hero::after{
   content:''; position:absolute; left:0; right:0; height:70px; pointer-events:none; z-index:2;
 }
 .hero::before{top:0; background:linear-gradient(to bottom, rgba(255,255,255,.65), transparent)}
 .hero::after{bottom:0; background:linear-gradient(to top, rgba(255,255,255,.55), transparent)}
 
-/* Шапка */
-.top{
-  position:relative; z-index:5;
-  text-align:center; padding-top:10px;
-}
+.top{position:relative; z-index:5; text-align:center; padding-top:10px}
 .top .kicker{
-  font-family:'Playfair Display', serif;
+  font-family:'Playfair Display',serif;
   font-size:clamp(10px,2.6vw,14px);
   letter-spacing:.32em; text-transform:uppercase;
-  color:var(--wine); font-weight:700;
-  margin:0 0 6px;
+  color:var(--wine); font-weight:700; margin:0 0 6px;
 }
 .top h1{
-  font-family:'Playfair Display', serif; font-weight:900;
-  font-size:clamp(38px,11vw,86px);
-  line-height:.92;
-  margin:0;
-  color:var(--wine);
-  letter-spacing:-.015em;
-  text-transform:uppercase;
+  font-family:'Playfair Display',serif; font-weight:900;
+  font-size:clamp(38px,11vw,86px); line-height:.92; margin:0;
+  color:var(--wine); letter-spacing:-.015em; text-transform:uppercase;
 }
 .top h1 .script{
-  display:block;
-  font-family:'Great Vibes', cursive;
-  font-weight:400;
-  font-size:clamp(38px,10vw,74px);
-  color:var(--red);
-  text-transform:none;
-  letter-spacing:0;
-  margin-top:-.15em;
-  line-height:1;
+  display:block; font-family:'Great Vibes',cursive; font-weight:400;
+  font-size:clamp(38px,10vw,74px); color:var(--red);
+  text-transform:none; letter-spacing:0; margin-top:-.15em; line-height:1;
 }
 .top .deco-line{
   display:flex; justify-content:center; gap:10px; align-items:center;
@@ -105,29 +74,13 @@ img{max-width:100%; display:block}
 .top .deco-line span{width:34px; height:1px; background:var(--wine); opacity:.6}
 .top .deco-line em{font-style:normal; opacity:.85}
 
-/* Гирлянда-флажки */
-.garland{
-  position:relative; z-index:5;
-  height:52px; margin:12px auto 4px; max-width:820px;
-  width:100%;
-}
+.garland{position:relative; z-index:5; height:52px; margin:12px auto 4px; max-width:820px; width:100%}
 .garland svg{width:100%; height:100%; display:block}
 
-/* Сетка HERO: левая колонка | центр | правая */
-.hero-grid{
-  position:relative; z-index:4;
-  flex:1;
-  display:grid; grid-template-columns:1fr;
-  align-items:center; gap:22px;
-  max-width:1100px; width:100%;
-  margin:0 auto;
-}
-
-/* Кнопки-шарики с буквами */
+/* ШАРИКИ */
 .word{
   display:flex; flex-wrap:wrap; justify-content:center;
-  gap:6px 2px; margin:14px 0 4px;
-  position:relative; z-index:6;
+  gap:6px 2px; margin:14px 0 4px; position:relative; z-index:6;
 }
 .balloon{
   pointer-events:auto; cursor:pointer; border:0; background:none; padding:0;
@@ -135,7 +88,6 @@ img{max-width:100%; display:block}
   animation:float 4.5s ease-in-out infinite;
   animation-delay:var(--delay,0s);
   transition:transform .25s cubic-bezier(.3,1.6,.5,1), opacity .25s;
-  will-change:transform;
 }
 @keyframes float{
   0%,100%{transform:translateY(0) rotate(var(--rot,0deg))}
@@ -147,8 +99,7 @@ img{max-width:100%; display:block}
   background:
     radial-gradient(circle at 32% 24%, rgba(255,255,255,.9) 0%, transparent 42%),
     linear-gradient(160deg, var(--c1), var(--c2));
-  box-shadow:inset -7px -10px 18px rgba(120,10,50,.18),
-             0 10px 20px rgba(139,28,51,.25);
+  box-shadow:inset -7px -10px 18px rgba(120,10,50,.18), 0 10px 20px rgba(139,28,51,.25);
   display:grid; place-items:center;
 }
 .balloon .body::after{
@@ -157,9 +108,9 @@ img{max-width:100%; display:block}
   border-top:9px solid var(--c2);
 }
 .balloon .letter{
-  font-family:'Playfair Display', serif; font-weight:900;
-  font-size:clamp(18px,4.2vw,32px);
-  color:#fff; text-shadow:0 2px 4px rgba(120,10,50,.4);
+  font-family:'Playfair Display',serif; font-weight:900;
+  font-size:clamp(18px,4.2vw,32px); color:#fff;
+  text-shadow:0 2px 4px rgba(120,10,50,.4);
 }
 .balloon .string{
   position:absolute; top:78%; left:50%; width:1.5px; height:26%;
@@ -167,31 +118,33 @@ img{max-width:100%; display:block}
 }
 .balloon.pop{transform:scale(1.5); opacity:0; pointer-events:none}
 
-/* Колонка с фото-полароидами */
+/* HERO-СЕТКА */
+.hero-grid{
+  position:relative; z-index:4; flex:1;
+  display:grid; grid-template-columns:1fr;
+  align-items:center; gap:22px;
+  max-width:1100px; width:100%; margin:0 auto;
+}
 .polaroids{
   display:grid; grid-template-columns:repeat(2,1fr);
-  gap:14px; align-content:center; justify-items:center;
-  padding:10px;
+  gap:14px; align-content:center; justify-items:center; padding:10px;
 }
 .polaroid{
   background:#fff; padding:8px 8px 26px; border-radius:3px;
   box-shadow:0 10px 24px rgba(139,28,51,.22);
   transform:rotate(var(--r,0deg));
   transition:transform .3s cubic-bezier(.3,1.4,.5,1), box-shadow .3s;
-  position:relative; width:100%; max-width:190px;
-  cursor:pointer;
+  position:relative; width:100%; max-width:180px; cursor:pointer;
 }
 .polaroid:hover{transform:rotate(0) translateY(-6px) scale(1.05); box-shadow:0 18px 34px rgba(139,28,51,.32); z-index:10}
 .polaroid img{width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:2px; background:#fbe1e9}
 .polaroid .cap{
   position:absolute; left:0; right:0; bottom:6px;
-  font-family:'Great Vibes',cursive; font-size:16px; text-align:center;
-  color:var(--wine);
+  font-family:'Great Vibes',cursive; font-size:18px; text-align:center; color:var(--wine);
 }
 .polaroid .tape{
   position:absolute; top:-9px; left:50%; transform:translateX(-50%) rotate(-4deg);
-  width:56px; height:18px; background:rgba(201,162,39,.5);
-  border-radius:2px;
+  width:56px; height:18px; background:rgba(201,162,39,.5); border-radius:2px;
 }
 .polaroid.no-photo img{display:none}
 .polaroid.no-photo::before{
@@ -199,26 +152,19 @@ img{max-width:100%; display:block}
   width:100%; aspect-ratio:1/1; font-size:34px; background:#fbe1e9; border-radius:2px;
 }
 
-/* Плашка дресс-кода как в постере */
 .dress-stamp{
   position:absolute; left:24px; top:120px; z-index:5;
   max-width:180px; transform:rotate(-6deg);
-  font-family:'Playfair Display', serif; font-style:italic;
-  color:var(--wine); font-size:14px; line-height:1.4;
-  display:none;
+  font-family:'Playfair Display',serif; font-style:italic;
+  color:var(--wine); font-size:14px; line-height:1.4; display:none;
 }
-.dress-stamp b{
-  display:block; font-style:normal; font-weight:700; font-size:16px; margin-bottom:4px;
-  letter-spacing:.02em;
-}
+.dress-stamp b{display:block; font-style:normal; font-weight:700; font-size:16px; margin-bottom:4px}
 @media (min-width:900px){ .dress-stamp{display:block} }
 
-/* Дата-штамп справа снизу как в постере */
 .date-stamp{
   position:absolute; right:24px; bottom:80px; z-index:5;
-  text-align:right; font-family:'Playfair Display', serif;
-  color:var(--wine); line-height:1;
-  display:none;
+  text-align:right; font-family:'Playfair Display',serif;
+  color:var(--wine); line-height:1; display:none;
 }
 .date-stamp .big{font-size:64px; font-weight:900; letter-spacing:-.03em}
 .date-stamp .sm{font-size:13px; letter-spacing:.3em; text-transform:uppercase; margin-bottom:6px; font-weight:700}
@@ -227,256 +173,182 @@ img{max-width:100%; display:block}
 
 /* КОНВЕРТ */
 .envelope-wrap{
-  position:relative; z-index:8;
-  display:grid; place-items:center; gap:16px;
-  transition:opacity .45s, transform .45s;
-  padding:30px 0 10px;
+  position:relative; z-index:8; display:grid; place-items:center; gap:16px;
+  transition:opacity .45s, transform .45s; padding:30px 0 10px;
 }
 .envelope-wrap.gone{opacity:0; transform:scale(.8); pointer-events:none}
 .hint{
-  font-family:'Playfair Display', serif; font-style:italic;
+  font-family:'Playfair Display',serif; font-style:italic;
   font-size:15px; color:var(--wine);
   background:rgba(255,255,255,.85); padding:9px 20px; border-radius:999px;
   animation:pulse 1.8s ease-in-out infinite; text-align:center;
   border:1px dashed var(--rose);
 }
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-.envelope{
-  position:relative; width:min(80vw,360px); aspect-ratio:3/2;
-  cursor:pointer; perspective:900px;
-}
+.envelope{position:relative; width:min(80vw,340px); aspect-ratio:3/2; cursor:pointer; perspective:900px}
 .envelope:focus-visible{outline:3px solid var(--red); outline-offset:8px; border-radius:12px}
-.env-back{
-  position:absolute; inset:0; border-radius:10px;
+.env-back{position:absolute; inset:0; border-radius:10px;
   background:linear-gradient(160deg,#e8506f,#8b1c33);
-  box-shadow:0 22px 50px rgba(139,28,51,.4);
-}
-.env-letter{
-  position:absolute; left:6%; right:6%; top:10%; bottom:8%; z-index:2;
-  background:#fffaf7; border-radius:8px;
-  box-shadow:0 4px 14px rgba(0,0,0,.1);
+  box-shadow:0 22px 50px rgba(139,28,51,.4);}
+.env-letter{position:absolute; left:6%; right:6%; top:10%; bottom:8%; z-index:2;
+  background:#fffaf7; border-radius:8px; box-shadow:0 4px 14px rgba(0,0,0,.1);
   display:grid; place-items:center; font-size:2rem;
-  transition:transform .65s cubic-bezier(.2,.85,.3,1);
-}
-.env-front{
-  position:absolute; inset:0; z-index:3; border-radius:10px;
+  transition:transform .65s cubic-bezier(.2,.85,.3,1);}
+.env-front{position:absolute; inset:0; z-index:3; border-radius:10px;
   background:linear-gradient(160deg,#ff9eb4,#d92048);
-  clip-path:polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
-}
-.env-flap{
-  position:absolute; left:0; right:0; top:0; height:58%; z-index:4;
+  clip-path:polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);}
+.env-flap{position:absolute; left:0; right:0; top:0; height:58%; z-index:4;
   background:linear-gradient(160deg,#d92048,#8b1c33);
   clip-path:polygon(0 0, 100% 0, 50% 100%);
   transform-origin:top center; backface-visibility:hidden;
-  transition:transform .65s ease, z-index 0s .3s;
-}
-.seal{
-  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  transition:transform .65s ease, z-index 0s .3s;}
+.seal{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
   z-index:6; font-size:1.7rem; transition:opacity .3s, transform .3s;
-  filter:drop-shadow(0 3px 6px rgba(120,10,50,.5));
-}
+  filter:drop-shadow(0 3px 6px rgba(120,10,50,.5));}
 .envelope.open .env-flap{transform:rotateX(180deg); z-index:1}
 .envelope.open .env-letter{transform:translateY(-58%)}
 .envelope.open .seal{opacity:0; transform:translate(-50%,-50%) scale(1.6)}
 
-/* КАРТОЧКА-ПРИГЛАШЕНИЕ */
+/* КАРТОЧКА */
 .invite-card{
   position:relative; z-index:10; width:min(94vw,600px);
-  background:#fffdfa;
-  border:1px solid var(--rose);
-  border-radius:6px;
+  background:#fffdfa; border:1px solid var(--rose); border-radius:6px;
   padding:38px 28px 32px; text-align:center;
   box-shadow:0 30px 70px rgba(139,28,51,.3);
   opacity:0; transform:scale(.85) translateY(20px); pointer-events:none;
   transition:opacity .5s, transform .5s cubic-bezier(.2,1.3,.4,1);
-  margin:0 auto;
-  outline:8px double var(--rose); outline-offset:-16px;
+  margin:0 auto; outline:8px double var(--rose); outline-offset:-16px;
 }
 .invite-card.show{opacity:1; transform:none; pointer-events:auto}
-.card-kicker{
-  font-family:'Playfair Display', serif;
-  font-size:11px; letter-spacing:.4em; text-transform:uppercase;
-  color:var(--wine); font-weight:700;
-}
-.invite-card h1{
-  font-family:'Playfair Display', serif; font-weight:900;
+.card-kicker{font-family:'Playfair Display',serif; font-size:11px;
+  letter-spacing:.4em; text-transform:uppercase; color:var(--wine); font-weight:700;}
+.invite-card h1{font-family:'Playfair Display',serif; font-weight:900;
   font-size:clamp(30px,7vw,48px); color:var(--wine);
-  margin:10px 0 6px; line-height:1;
-}
-.invite-card h1 .script{
-  display:block; font-family:'Great Vibes',cursive; font-weight:400;
-  font-size:clamp(34px,8vw,56px); color:var(--red); margin-top:-.1em;
-}
+  margin:10px 0 6px; line-height:1;}
+.invite-card h1 .script{display:block; font-family:'Great Vibes',cursive; font-weight:400;
+  font-size:clamp(34px,8vw,56px); color:var(--red); margin-top:-.1em;}
 .to{font-size:17px; margin:16px 0 6px; color:var(--wine)}
 .to b{color:var(--red); font-size:20px; font-family:'Playfair Display',serif; font-weight:700}
 .sub{margin:0 auto 24px; max-width:420px; color:var(--ink); font-size:15px; line-height:1.6; opacity:.85}
-
 .facts{display:grid; gap:10px; text-align:left; margin-bottom:24px}
-.fact{
-  display:flex; gap:14px; align-items:center;
-  background:#fff; border:1px solid var(--rose); border-radius:4px; padding:12px 16px;
-}
+.fact{display:flex; gap:14px; align-items:center;
+  background:#fff; border:1px solid var(--rose); border-radius:4px; padding:12px 16px;}
 .fact span{font-size:22px}
-.fact small{display:block; font-size:10px; text-transform:uppercase; letter-spacing:.16em; color:var(--wine); font-weight:700; opacity:.7}
+.fact small{display:block; font-size:10px; text-transform:uppercase; letter-spacing:.16em;
+  color:var(--wine); font-weight:700; opacity:.7}
 .fact b{font-size:16px; color:var(--ink)}
-
 .actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap}
-.btn{
-  font-family:'Playfair Display', serif; font-weight:700; font-size:15px; color:#fff;
+.btn{font-family:'Playfair Display',serif; font-weight:700; font-size:15px; color:#fff;
   background:linear-gradient(160deg,#e8506f,#8b1c33);
   border:0; border-radius:999px; padding:14px 28px; cursor:pointer;
   box-shadow:0 12px 26px rgba(139,28,51,.35);
-  transition:transform .2s, box-shadow .2s;
-  letter-spacing:.02em;
-}
+  transition:transform .2s, box-shadow .2s; letter-spacing:.02em;}
 .btn:hover{transform:translateY(-2px); box-shadow:0 16px 32px rgba(139,28,51,.45)}
 .btn:active{transform:translateY(1px)}
-.btn.ghost{
-  background:#fff; color:var(--wine); border:1.5px solid var(--wine);
-  box-shadow:0 8px 20px rgba(139,28,51,.12);
-}
+.btn.ghost{background:#fff; color:var(--wine); border:1.5px solid var(--wine);
+  box-shadow:0 8px 20px rgba(139,28,51,.12);}
 
-/* ================ ДЕТАЛИ ================ */
-.details{
-  position:relative; z-index:5;
-  background:#fff;
-  padding:40px 16px 90px;
-  border-top:3px double var(--rose);
-}
+/* ДЕТАЛИ */
+.details{position:relative; z-index:5; background:#fff;
+  padding:40px 16px 90px; border-top:3px double var(--rose);}
 .details-inner{max-width:900px; margin:0 auto}
-.details h2{
-  font-family:'Playfair Display', serif; font-weight:900;
+.details h2{font-family:'Playfair Display',serif; font-weight:900;
   text-align:center; font-size:clamp(24px,5vw,34px); color:var(--wine);
-  margin:64px 0 22px; letter-spacing:-.01em;
-}
+  margin:64px 0 22px; letter-spacing:-.01em;}
 .details h2:first-child{margin-top:0}
-.details h2 .script{
-  display:block; font-family:'Great Vibes',cursive; font-weight:400;
-  color:var(--red); font-size:1.2em; margin-top:-.2em;
-}
 
-/* VIBE CARDS */
 .vibe{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px}
-.vibe-card{
-  background:#fff8f9; border:1px solid var(--rose); border-radius:6px;
+.vibe-card{background:#fff8f9; border:1px solid var(--rose); border-radius:6px;
   padding:22px 18px; text-align:center;
-  transition:transform .3s, box-shadow .3s, background .3s; cursor:default;
-}
-.vibe-card:hover{transform:translateY(-6px) rotate(-1deg); box-shadow:0 20px 40px rgba(139,28,51,.22); background:#fff}
-.vibe-card .ico{font-size:44px; line-height:1; margin-bottom:10px; display:inline-block; transition:transform .4s}
+  transition:transform .3s, box-shadow .3s, background .3s; cursor:default;}
+.vibe-card:hover{transform:translateY(-6px) rotate(-1deg);
+  box-shadow:0 20px 40px rgba(139,28,51,.22); background:#fff;}
+.vibe-card .ico{font-size:44px; line-height:1; margin-bottom:10px;
+  display:inline-block; transition:transform .4s;}
 .vibe-card:hover .ico{transform:scale(1.2) rotate(6deg)}
-.vibe-card h3{margin:0 0 6px; font-size:17px; color:var(--wine); font-family:'Playfair Display',serif; font-weight:700}
+.vibe-card h3{margin:0 0 6px; font-size:17px; color:var(--wine);
+  font-family:'Playfair Display',serif; font-weight:700;}
 .vibe-card p{margin:0; font-size:14px; color:var(--ink); opacity:.78; line-height:1.45}
 
-/* COUNTDOWN */
 .countdown{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
-.cd-box{
-  background:#fff8f9; border:1px solid var(--rose); border-radius:6px;
-  padding:18px 6px; text-align:center;
-}
-.cd-num{font-family:'Playfair Display',serif; font-size:clamp(26px,7vw,44px); font-weight:900; color:var(--red); line-height:1}
-.cd-lab{font-size:11px; text-transform:uppercase; letter-spacing:.18em; color:var(--wine); font-weight:700; margin-top:8px; opacity:.7}
+.cd-box{background:#fff8f9; border:1px solid var(--rose); border-radius:6px;
+  padding:18px 6px; text-align:center;}
+.cd-num{font-family:'Playfair Display',serif; font-size:clamp(26px,7vw,44px);
+  font-weight:900; color:var(--red); line-height:1}
+.cd-lab{font-size:11px; text-transform:uppercase; letter-spacing:.18em;
+  color:var(--wine); font-weight:700; margin-top:8px; opacity:.7}
 
-/* MAP */
 .map{border-radius:6px; overflow:hidden; border:1px solid var(--rose); line-height:0}
 .map iframe{width:100%; height:360px; border:0; display:block}
 .map-actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px}
 
-/* DRESS */
-.dress{
-  display:flex; gap:18px; align-items:center; flex-wrap:wrap; justify-content:center;
+.dress{display:flex; gap:18px; align-items:center; flex-wrap:wrap; justify-content:center;
   background:#fff8f9; border:1.5px dashed var(--wine); border-radius:6px;
-  padding:28px 22px; text-align:center;
-}
+  padding:28px 22px; text-align:center;}
 .dress .big{font-size:46px; display:inline-block; animation:pulse 2.4s ease-in-out infinite}
 .dress h3{margin:0 0 6px; font-family:'Playfair Display',serif; font-size:20px; color:var(--wine)}
 .dress p{margin:0; font-size:15px; opacity:.8}
 
-/* CHECKLIST */
-.checks{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; max-width:660px; margin:0 auto}
-.check{
-  display:flex; gap:12px; align-items:center; cursor:pointer;
+.checks{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px; max-width:660px; margin:0 auto}
+.check{display:flex; gap:12px; align-items:center; cursor:pointer;
   background:#fff; border:1px solid var(--rose); border-radius:4px;
   padding:14px 16px; font-size:15px; font-weight:700; color:var(--ink);
   transition:transform .2s, background .25s, border-color .25s, color .25s;
-  user-select:none;
-}
+  user-select:none;}
 .check:hover{transform:translateY(-3px); box-shadow:0 10px 20px rgba(139,28,51,.12)}
-.check .box{
-  width:26px; height:26px; flex:0 0 26px; border-radius:4px;
+.check .box{width:26px; height:26px; flex:0 0 26px; border-radius:4px;
   border:1.5px solid var(--wine); display:grid; place-items:center;
-  font-size:16px; color:#fff; transition:background .25s, border-color .25s;
-}
+  font-size:16px; color:#fff; transition:background .25s, border-color .25s;}
 .check.on{background:#fff2f4; border-color:var(--red); color:var(--wine)}
 .check.on .box{background:var(--red); border-color:var(--red)}
 
-/* ============ ГАЛЕРЕЯ ТИМУРА И САШИ ============ */
-.gallery-toggle{display:flex; justify-content:center; margin-bottom:20px}
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:12px;
-  max-width:900px; margin:0 auto;
-  max-height:0; overflow:hidden;
-  transition:max-height .8s ease;
+/* ФОТО-ЛЕНТА */
+.photo-strip{
+  position:relative; z-index:3;
+  padding:36px 16px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,.9), transparent 60%),
+    repeating-linear-gradient(90deg,
+      var(--cream) 0px, var(--cream) 26px,
+      var(--stripe) 26px, var(--stripe) 52px);
+  border-top:3px double var(--rose);
+  border-bottom:3px double var(--rose);
 }
-.gallery.open{max-height:3000px}
-.gallery-item{
-  position:relative; overflow:hidden; border-radius:6px; cursor:pointer;
-  background:#fbe1e9; aspect-ratio:1/1;
-  transform:scale(.92); opacity:0;
-  transition:transform .5s, opacity .5s;
+.photo-strip-inner{
+  max-width:1100px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:18px; justify-items:center;
 }
-.gallery.open .gallery-item{transform:scale(1); opacity:1}
-.gallery-item img{width:100%; height:100%; object-fit:cover; transition:transform .5s}
-.gallery-item:hover img{transform:scale(1.1)}
-.gallery-item .overlay{
-  position:absolute; inset:0; display:grid; place-items:center;
-  background:linear-gradient(to top, rgba(139,28,51,.55), transparent 60%);
-  opacity:0; transition:opacity .3s;
-  color:#fff; font-family:'Great Vibes',cursive; font-size:26px;
+.strip-item{
+  position:relative; background:#fff; padding:7px 7px 24px; border-radius:3px;
+  box-shadow:0 10px 24px rgba(139,28,51,.22);
+  transform:rotate(var(--r,0deg));
+  transition:transform .3s cubic-bezier(.3,1.4,.5,1), box-shadow .3s;
+  cursor:pointer; width:100%; max-width:200px;
 }
-.gallery-item:hover .overlay{opacity:1}
-.gallery-item.no-photo img{display:none}
-.gallery-item.no-photo::before{
-  content:'📸'; display:grid; place-items:center; font-size:36px;
-  width:100%; height:100%;
+.strip-item:hover{transform:rotate(0) translateY(-6px) scale(1.06);
+  box-shadow:0 18px 34px rgba(139,28,51,.32); z-index:10}
+.strip-item img{width:100%; aspect-ratio:1/1; object-fit:cover;
+  border-radius:2px; background:#fbe1e9}
+.strip-item .cap{
+  position:absolute; left:0; right:0; bottom:5px;
+  font-family:'Great Vibes',cursive; font-size:17px; text-align:center;
+  color:var(--wine);
+}
+.strip-item.no-photo img{display:none}
+.strip-item.no-photo::before{
+  content:'📸'; display:grid; place-items:center;
+  width:100%; aspect-ratio:1/1; font-size:30px; background:#fbe1e9; border-radius:2px;
+}
+.strip-item .tape{
+  position:absolute; top:-8px; left:50%; transform:translateX(-50%) rotate(-4deg);
+  width:52px; height:16px; background:rgba(201,162,39,.5); border-radius:2px;
 }
 
-/* Lightbox */
-.lightbox{
-  position:fixed; inset:0; z-index:10000;
-  background:rgba(60,5,20,.85);
-  display:none; place-items:center;
-  padding:30px;
-  backdrop-filter:blur(6px);
-}
-.lightbox.show{display:grid}
-.lightbox img{
-  max-width:min(92vw,900px); max-height:82vh;
-  border-radius:6px; box-shadow:0 30px 80px rgba(0,0,0,.5);
-  animation:zoom .35s cubic-bezier(.3,1.4,.5,1);
-}
-@keyframes zoom{from{transform:scale(.85); opacity:0} to{transform:scale(1); opacity:1}}
-.lightbox .close{
-  position:absolute; top:20px; right:26px;
-  background:none; border:0; color:#fff; font-size:38px; cursor:pointer;
-  line-height:1; opacity:.85;
-}
-.lightbox .close:hover{opacity:1}
-.lightbox .nav{
-  position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(255,255,255,.15); border:0; color:#fff;
-  width:52px; height:52px; border-radius:50%; font-size:24px; cursor:pointer;
-  display:grid; place-items:center; transition:background .2s;
-}
-.lightbox .nav:hover{background:rgba(255,255,255,.3)}
-.lightbox .prev{left:16px}
-.lightbox .next{right:16px}
+.footer{text-align:center; margin-top:56px; font-size:14px;
+  color:var(--wine); opacity:.75; line-height:1.7}
 
-.footer{text-align:center; margin-top:56px; font-size:14px; color:var(--wine); opacity:.75; line-height:1.7}
-
-/* Секретное сообщение */
 .secret-toast{
   position:fixed; left:50%; bottom:28px; transform:translate(-50%,140%);
   background:var(--wine); color:#fff; padding:14px 24px; border-radius:999px;
@@ -487,16 +359,29 @@ img{max-width:100%; display:block}
 }
 .secret-toast.show{transform:translate(-50%,0)}
 
-/* Desktop: фото по краям, центр — конверт */
-@media (min-width:900px){
-  .hero-grid{
-    grid-template-columns: 1fr auto 1fr;
-    gap:30px;
-    padding:0 20px;
-  }
-  .polaroids{grid-template-columns:repeat(2,1fr)}
+.lightbox{
+  position:fixed; inset:0; z-index:10000; background:rgba(60,5,20,.88);
+  display:none; place-items:center; padding:30px; backdrop-filter:blur(6px);
 }
-/* Mobile */
+.lightbox.show{display:grid}
+.lightbox img{max-width:min(92vw,900px); max-height:82vh; border-radius:6px;
+  box-shadow:0 30px 80px rgba(0,0,0,.5);
+  animation:zoom .35s cubic-bezier(.3,1.4,.5,1);}
+@keyframes zoom{from{transform:scale(.85); opacity:0} to{transform:scale(1); opacity:1}}
+.lightbox .close{position:absolute; top:20px; right:26px;
+  background:none; border:0; color:#fff; font-size:38px; cursor:pointer; line-height:1; opacity:.85}
+.lightbox .close:hover{opacity:1}
+.lightbox .nav{position:absolute; top:50%; transform:translateY(-50%);
+  background:rgba(255,255,255,.15); border:0; color:#fff;
+  width:52px; height:52px; border-radius:50%; font-size:24px; cursor:pointer;
+  display:grid; place-items:center; transition:background .2s;}
+.lightbox .nav:hover{background:rgba(255,255,255,.3)}
+.lightbox .prev{left:16px}
+.lightbox .next{right:16px}
+
+@media (min-width:900px){
+  .hero-grid{grid-template-columns:1fr auto 1fr; gap:30px; padding:0 20px;}
+}
 @media (max-width:899px){
   .polaroids{display:none}
   .top h1{font-size:clamp(36px,10vw,64px)}
@@ -511,7 +396,6 @@ img{max-width:100%; display:block}
 <!-- ======================= HERO ======================= -->
 <section class="hero">
 
-  <!-- ГИРЛЯНДА-ФЛАЖКИ (SVG) -->
   <div class="garland" aria-hidden="true">
     <svg viewBox="0 0 800 60" preserveAspectRatio="none">
       <path d="M0 8 Q 400 30 800 8" stroke="#8b1c33" stroke-width="1.2" fill="none"/>
@@ -531,28 +415,16 @@ img{max-width:100%; display:block}
     </svg>
   </div>
 
-  <!-- ШАПКА -->
   <header class="top">
-    <p class="kicker">Тайная группа фанатов приглашает на</p>
-    <h1>
-      Bachelorette
-      <span class="script">Party!</span>
-    </h1>
-    <div class="deco-line">
-      <span></span><em>✦</em><em>✦</em><em>✦</em><span></span>
-    </div>
+    <p class="kicker">Девичник у Саши намечается</p>
+    <h1>Bachelorette<span class="script">Party!</span></h1>
+    <div class="deco-line"><span></span><em>✦</em><em>✦</em><em>✦</em><span></span></div>
   </header>
 
-  <!-- ШАРИКИ-БУКВЫ -->
   <div class="word" id="word" aria-label="Нажми на шарики"></div>
 
-  <!-- СЕТКА -->
   <div class="hero-grid">
-
-    <!-- ЛЕВАЯ КОЛОНКА: 4 фото-полароида -->
-    <div class="polaroids" id="polaroids-left" aria-hidden="false"></div>
-
-    <!-- ЦЕНТР: КОНВЕРТ -->
+    <div class="polaroids" id="polaroids-left"></div>
     <div class="envelope-wrap" id="envelopeWrap">
       <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Открыть письмо">
         <div class="env-back"></div>
@@ -563,31 +435,19 @@ img{max-width:100%; display:block}
       </div>
       <div class="hint" id="hint">нажми на письмо 💌</div>
     </div>
-
-    <!-- ПРАВАЯ КОЛОНКА: те же 4 фото (для симметрии на десктопе) -->
-    <div class="polaroids" id="polaroids-right" aria-hidden="true"></div>
-
+    <div class="polaroids" id="polaroids-right"></div>
   </div>
 
-  <!-- Штампы как в постере (десктоп) -->
-  <div class="dress-stamp">
-    <b>Дресс-код:</b>
-    купальник и хорошее настроение
-  </div>
-
+  <div class="dress-stamp"><b>Дресс-код:</b> купальник и хорошее настроение</div>
   <div class="date-stamp">
     <div class="sm">Будь готова</div>
     <div class="big">17.10</div>
     <div class="time">16:00</div>
   </div>
 
-  <!-- КАРТОЧКА-ПРИГЛАШЕНИЕ (появляется после конверта) -->
   <div class="invite-card" id="card">
-    <p class="card-kicker">Тайная группа фанатов приглашает</p>
-    <h1>
-      Bachelorette
-      <span class="script">Party!</span>
-    </h1>
+    <p class="card-kicker">Только для своих 💗</p>
+    <h1>Bachelorette<span class="script">Party!</span></h1>
     <p class="to">Дорогая <b>Александра</b>!</p>
     <p class="sub">Попаримся, поплаваем в чану, посмеёмся и ни о чём не подумаем. Ты — главный человек этого вечера.</p>
 
@@ -607,6 +467,11 @@ img{max-width:100%; display:block}
 
 </section>
 
+<!-- ============== ФОТО-ЛЕНТА №1 ============== -->
+<section class="photo-strip">
+  <div class="photo-strip-inner" id="strip1"></div>
+</section>
+
 <!-- ======================= ДЕТАЛИ ======================= -->
 <section class="details" id="details">
 <div class="details-inner">
@@ -619,6 +484,17 @@ img{max-width:100%; display:block}
     <div class="vibe-card"><div class="ico">🍓</div><h3>Вкусности</h3><p>Фрукты, сыр, что-нибудь сладенькое и просекко</p></div>
   </div>
 
+</div>
+</section>
+
+<!-- ============== ФОТО-ЛЕНТА №2 ============== -->
+<section class="photo-strip">
+  <div class="photo-strip-inner" id="strip2"></div>
+</section>
+
+<!-- ============== ОТСЧЁТ ============== -->
+<section class="details" style="border-top:0;">
+<div class="details-inner">
   <h2>До девичника осталось</h2>
   <div class="countdown" id="countdown">
     <div class="cd-box"><div class="cd-num" id="cd-d">--</div><div class="cd-lab">дней</div></div>
@@ -626,6 +502,17 @@ img{max-width:100%; display:block}
     <div class="cd-box"><div class="cd-num" id="cd-m">--</div><div class="cd-lab">минут</div></div>
     <div class="cd-box"><div class="cd-num" id="cd-s">--</div><div class="cd-lab">секунд</div></div>
   </div>
+</div>
+</section>
+
+<!-- ============== ФОТО-ЛЕНТА №3 ============== -->
+<section class="photo-strip">
+  <div class="photo-strip-inner" id="strip3"></div>
+</section>
+
+<!-- ============== КАРТА / ДРЕСС-КОД / ЧЕК-ЛИСТ ============== -->
+<section class="details" style="border-top:0;">
+<div class="details-inner">
 
   <h2>Как добраться</h2>
   <div class="map">
@@ -655,22 +542,15 @@ img{max-width:100%; display:block}
   <h2>Отметь, что берёшь с собой</h2>
   <div class="checks" id="checks"></div>
 
-  <!-- ГАЛЕРЕЯ ТИМУРА И САШИ -->
-  <h2>Тимур и Саша <span class="script">наша команда</span></h2>
-  <div class="gallery-toggle">
-    <button class="btn" id="galleryToggle">Показать все наши фото 📸</button>
-  </div>
-  <div class="gallery" id="gallery"></div>
-
   <p class="footer">
     Тимур уже собирает вещи 😎 · ждём тебя, Саша!<br>
-    С любовью, твоя тайная группа фанатов 💗
+    с любовью, твои любимки 💗
   </p>
 
 </div>
 </section>
 
-<!-- =============== ЛАЙТБОКС =============== -->
+<!-- ============== ЛАЙТБОКС ============== -->
 <div class="lightbox" id="lightbox">
   <button class="close" id="lbClose" aria-label="Закрыть">×</button>
   <button class="nav prev" id="lbPrev" aria-label="Назад">‹</button>
@@ -686,19 +566,29 @@ const WORD    = 'ДЕВИЧНИК';
 const DATE    = '2026-10-17T16:00:00';
 const ADDRESS = 'г. Казань, ул. Радиальная, 23/20';
 
-// 4 фото подружек (полароиды на первом экране)
-const PHOTOS_HERO = ['photo1.JPG', 'photo2.JPG', 'photo3.JPG', 'photo4.JPG'];
-const CAPTIONS    = ['мы 💕', 'тот день', 'люблю вас', 'скоро увидимся'];
+// Все 12 фото
+const ALL_PHOTOS = [
+  // Тимур и Саша
+  't1.JPG','t2.JPG','t3.JPG','t4.JPG',
+  't5.JPG','t6.JPG','t7.JPG','t8.JPG',
+  // Подружки
+  'photo1.JPG','photo2.JPG','photo3.JPG','photo4.JPG'
+];
 
-// 8 фото Тимура и Саши (галерея ниже)
-const PHOTOS_GALLERY = [
-  't1.JPG', 't2.JPG', 't3.JPG', 't4.JPG',
-  't5.JPG', 't6.JPG', 't7.JPG', 't8.JPG'
+// Подписи: сначала 8 Тимура и Саши, потом 4 подружки по именам
+const CAPTIONS = [
+  // Тимур и Саша
+  'первое фото', 'тот день', 'море', 'смеёмся',
+  'наша зима', 'любим гулять', 'просто мы', 'навсегда',
+  // Подружки — Лиза, Таня, Алина, Эля
+  'Лиза 💕', 'Таня ✨', 'Алина 🌸', 'Эля 💗'
 ];
-const GALLERY_CAPTIONS = [
-  'мы вместе', 'наша история', 'тёплый вечер', 'смеёмся',
-  'путешествие', 'просто счастье', 'люблю', 'навсегда'
-];
+
+// Раскладка индексов по секциям
+const HERO_LEFT_IDX = [0,1,2,3];       // hero: слева — Тимур/Саша
+const STRIP1_IDX    = [8,9,4,5];       // Лиза, Таня, Тимур5, Тимур6
+const STRIP2_IDX    = [4,5,6,7];       // Тимур5–8
+const STRIP3_IDX    = [10,11,6,7];     // Алина, Эля, Тимур7, Тимур8
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* ========================================================= */
@@ -866,8 +756,7 @@ function popBalloon(el, isLetter){
       document.getElementById('hint').textContent = 'Шарики лопнули 🎉 открывай письмо!';
       document.getElementById('envelope').animate(
         [{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],
-        { duration: 600, iterations: 3 }
-      );
+        { duration: 600, iterations: 3 });
       burst(innerWidth/2, innerHeight/2, 60);
       chime();
       showToast('Все шарики лопнули! Ты готова открыть письмо 💌');
@@ -875,47 +764,11 @@ function popBalloon(el, isLetter){
   }
 }
 
-/* ---------- ФОТО-ПОЛАРОИДЫ (по бокам) ---------- */
-const TILTS = [-11, 9, 7, -8];
-function makePolaroid(src, cap, idx, side){
-  const d = document.createElement('div');
-  d.className = 'polaroid';
-  d.style.setProperty('--r', (TILTS[idx] * (side === 'right' ? -1 : 1)) + 'deg');
-  d.innerHTML = `
-    <span class="tape"></span>
-    <img src="${src}" alt="Наше фото" loading="lazy"
-         onerror="this.closest('.polaroid').classList.add('no-photo')">
-    <span class="cap">${cap}</span>`;
-  d.addEventListener('click', () => {
-    const r = d.getBoundingClientRect();
-    burst(r.left + r.width/2, r.top + r.height/2, 20);
-    popSound();
-    d.animate(
-      [{transform:'rotate(var(--r,0deg)) scale(1)'},
-       {transform:'rotate(var(--r,0deg)) scale(1.2)'},
-       {transform:'rotate(var(--r,0deg)) scale(1)'}],
-      { duration: 500, easing:'cubic-bezier(.3,1.6,.5,1)' }
-    );
-    openLightbox(PHOTOS_HERO, idx);
-  });
-  return d;
-}
-const leftBox  = document.getElementById('polaroids-left');
-const rightBox = document.getElementById('polaroids-right');
-PHOTOS_HERO.forEach((src, i) => {
-  leftBox.appendChild(makePolaroid(src, CAPTIONS[i] || '', i, 'left'));
-  // справа — те же, для симметрии на десктопе
-  const mirror = makePolaroid(src, CAPTIONS[i] || '', i, 'right');
-  mirror.style.transform = `rotate(${-TILTS[i]}deg)`;
-  rightBox.appendChild(mirror);
-});
-
 /* ---------- КОНВЕРТ ---------- */
 const envelope = document.getElementById('envelope');
 const wrap = document.getElementById('envelopeWrap');
 const card = document.getElementById('card');
 let opened = false;
-
 function openEnvelope(){
   if (opened) return;
   opened = true; whoosh();
@@ -941,11 +794,7 @@ document.getElementById('rsvp').addEventListener('click', e => {
   ding();
   const r = e.currentTarget.getBoundingClientRect();
   for (let i = 0; i < 6; i++){
-    setTimeout(() => burst(
-      r.left + Math.random()*r.width,
-      r.top  + Math.random()*r.height,
-      26
-    ), i*120);
+    setTimeout(() => burst(r.left + Math.random()*r.width, r.top + Math.random()*r.height, 26), i*120);
   }
   e.currentTarget.textContent = 'Ура! Ждём 💗';
   showToast('Саша придёт — это лучшая новость дня! 🎉');
@@ -955,12 +804,9 @@ document.getElementById('ics').addEventListener('click', () => {
   const end = '20261017T230000';
   const ics = [
     'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Devichnik//RU',
-    'BEGIN:VEVENT',
-    'UID:' + Date.now() + '@devichnik',
-    'DTSTAMP:' + dt + 'Z',
-    'DTSTART:' + dt,
-    'DTEND:' + end,
-    'SUMMARY:Bachelorette Party · Александра 💗',
+    'BEGIN:VEVENT','UID:' + Date.now() + '@devichnik',
+    'DTSTAMP:' + dt + 'Z','DTSTART:' + dt,'DTEND:' + end,
+    'SUMMARY:Девичник у Саши · Bachelorette Party 💗',
     'LOCATION:' + ADDRESS,
     'DESCRIPTION:Баня, сауна, чан. Дресс-код: купальник и хорошее настроение.',
     'END:VEVENT','END:VCALENDAR'
@@ -968,14 +814,14 @@ document.getElementById('ics').addEventListener('click', () => {
   const blob = new Blob([ics], { type:'text/calendar' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'bachelorette-party.ics';
+  a.download = 'devichnik-u-sashi.ics';
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   ding();
-  showToast('Открытка добавлена в календарь 📅');
+  showToast('Добавлено в календарь 📅');
 });
 
-/* ---------- ОБРАТНЫЙ ОТСЧЁТ ---------- */
+/* ---------- ОТСЧЁТ ---------- */
 const target = new Date(DATE).getTime();
 const pad = n => String(n).padStart(2,'0');
 function tick(){
@@ -987,11 +833,9 @@ function tick(){
 }
 tick(); setInterval(tick, 1000);
 
-/* ---------- ПРИМЕТЫ ВЕЧЕРА ---------- */
-const CHECKLIST = [
-  'Купальник', 'Полотенце', 'Тапочки',
-  'Любимый чай или что покрепче', 'Хорошее настроение', 'Танцевальный плейлист'
-];
+/* ---------- ЧЕК-ЛИСТ ---------- */
+const CHECKLIST = ['Купальник','Полотенце','Тапочки',
+  'Любимый чай или что покрепче','Хорошее настроение','Танцевальный плейлист'];
 const checksEl = document.getElementById('checks');
 CHECKLIST.forEach(txt => {
   const d = document.createElement('div');
@@ -1008,30 +852,78 @@ CHECKLIST.forEach(txt => {
   checksEl.appendChild(d);
 });
 
-/* ---------- ГАЛЕРЕЯ ТИМУРА И САШИ ---------- */
-const galleryEl = document.getElementById('gallery');
-PHOTOS_GALLERY.forEach((src, i) => {
-  const item = document.createElement('div');
-  item.className = 'gallery-item';
-  item.style.transitionDelay = (i * 60) + 'ms';
-  item.innerHTML = `
-    <img src="${src}" alt="Тимур и Саша" loading="lazy"
-         onerror="this.closest('.gallery-item').classList.add('no-photo')">
-    <span class="overlay">${GALLERY_CAPTIONS[i] || ''}</span>`;
-  item.addEventListener('click', () => openLightbox(PHOTOS_GALLERY, i));
-  galleryEl.appendChild(item);
+/* ---------- ФОТО ---------- */
+const TILTS = [-11, 9, 7, -8];
+
+function makePolaroid(idx, tilt, side){
+  const src = ALL_PHOTOS[idx];
+  const cap = CAPTIONS[idx] || '';
+  const d = document.createElement('div');
+  d.className = 'polaroid';
+  d.style.setProperty('--r', (tilt * (side === 'right' ? -1 : 1)) + 'deg');
+  d.innerHTML = `
+    <span class="tape"></span>
+    <img src="${src}" alt="Наше фото" loading="lazy"
+         onerror="this.closest('.polaroid').classList.add('no-photo')">
+    <span class="cap">${cap}</span>`;
+  d.addEventListener('click', () => {
+    const r = d.getBoundingClientRect();
+    burst(r.left + r.width/2, r.top + r.height/2, 20);
+    popSound();
+    d.animate(
+      [{transform:'rotate(var(--r,0deg)) scale(1)'},
+       {transform:'rotate(var(--r,0deg)) scale(1.2)'},
+       {transform:'rotate(var(--r,0deg)) scale(1)'}],
+      { duration: 500, easing:'cubic-bezier(.3,1.6,.5,1)' });
+    openLightbox(ALL_PHOTOS, idx);
+  });
+  return d;
+}
+
+function makeStrip(idx, tilt){
+  const src = ALL_PHOTOS[idx];
+  const cap = CAPTIONS[idx] || '';
+  const d = document.createElement('div');
+  d.className = 'strip-item';
+  d.style.setProperty('--r', tilt + 'deg');
+  d.innerHTML = `
+    <span class="tape"></span>
+    <img src="${src}" alt="Наше фото" loading="lazy"
+         onerror="this.closest('.strip-item').classList.add('no-photo')">
+    <span class="cap">${cap}</span>`;
+  d.addEventListener('click', () => {
+    const r = d.getBoundingClientRect();
+    burst(r.left + r.width/2, r.top + r.height/2, 18);
+    popSound();
+    d.animate(
+      [{transform:'rotate(var(--r,0deg)) scale(1)'},
+       {transform:'rotate(var(--r,0deg)) scale(1.15)'},
+       {transform:'rotate(var(--r,0deg)) scale(1)'}],
+      { duration: 450, easing:'cubic-bezier(.3,1.6,.5,1)' });
+    openLightbox(ALL_PHOTOS, idx);
+  });
+  return d;
+}
+
+// hero: слева и справа — 4 фото Тимура/Саши
+const leftBox  = document.getElementById('polaroids-left');
+const rightBox = document.getElementById('polaroids-right');
+HERO_LEFT_IDX.forEach((idx, i) => {
+  leftBox.appendChild(makePolaroid(idx, TILTS[i], 'left'));
+  rightBox.appendChild(makePolaroid(idx, TILTS[i], 'right'));
 });
 
-document.getElementById('galleryToggle').addEventListener('click', e => {
-  const g = document.getElementById('gallery');
-  g.classList.toggle('open');
-  e.currentTarget.textContent = g.classList.contains('open')
-    ? 'Скрыть фото ↑'
-    : 'Показать все наши фото 📸';
-  if (g.classList.contains('open')) {
-    ding();
-    setTimeout(() => burst(innerWidth/2, innerHeight/2, 40), 300);
-  }
+// 3 фотов-ленты
+const strips = [
+  { el: document.getElementById('strip1'), idx: STRIP1_IDX },
+  { el: document.getElementById('strip2'), idx: STRIP2_IDX },
+  { el: document.getElementById('strip3'), idx: STRIP3_IDX }
+];
+strips.forEach(({ el, idx }) => {
+  idx.forEach((photoIdx, i) => {
+    const t = [ -9, 7, -6, 10 ][i % 4];
+    el.appendChild(makeStrip(photoIdx, t));
+  });
 });
 
 /* ---------- ЛАЙТБОКС ---------- */
@@ -1073,7 +965,7 @@ function showToast(msg){
   toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
 }
 
-/* ---------- ПАСХАЛКА: Konami code ---------- */
+/* ---------- ПАСХАЛКА ---------- */
 const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
 let konamiIdx = 0;
 document.addEventListener('keydown', e => {
@@ -1081,21 +973,14 @@ document.addEventListener('keydown', e => {
     konamiIdx++;
     if (konamiIdx === KONAMI.length){
       konamiIdx = 0;
-      secretFireworks();
+      for (let i = 0; i < 14; i++){
+        setTimeout(() => burst(Math.random()*innerWidth, Math.random()*innerHeight*0.6, 30), i * 180);
+      }
+      chime();
+      showToast('🎉 Секретный уровень: люблю тебя, Саша! 🎉');
     }
   } else konamiIdx = 0;
 });
-function secretFireworks(){
-  for (let i = 0; i < 14; i++){
-    setTimeout(() => burst(
-      Math.random()*innerWidth,
-      Math.random()*innerHeight*0.6,
-      30
-    ), i * 180);
-  }
-  chime();
-  showToast('🎉 Секретный уровень: люблю тебя, Саша! 🎉');
-}
 </script>
 </body>
 </html>
