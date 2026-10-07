@@ -130,7 +130,7 @@ img{max-width:100%; display:block}
   gap:14px; align-content:center; justify-items:center; padding:10px;
 }
 .polaroid{
-  background:#fff; padding:8px 8px 26px; border-radius:3px;
+  background:#fff; padding:8px 8px 8px; border-radius:3px;
   box-shadow:0 10px 24px rgba(139,28,51,.22);
   transform:rotate(var(--r,0deg));
   transition:transform .3s cubic-bezier(.3,1.4,.5,1), box-shadow .3s;
@@ -138,10 +138,6 @@ img{max-width:100%; display:block}
 }
 .polaroid:hover{transform:rotate(0) translateY(-6px) scale(1.05); box-shadow:0 18px 34px rgba(139,28,51,.32); z-index:10}
 .polaroid img{width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:2px; background:#fbe1e9}
-.polaroid .cap{
-  position:absolute; left:0; right:0; bottom:6px;
-  font-family:'Great Vibes',cursive; font-size:18px; text-align:center; color:var(--wine);
-}
 .polaroid .tape{
   position:absolute; top:-9px; left:50%; transform:translateX(-50%) rotate(-4deg);
   width:56px; height:18px; background:rgba(201,162,39,.5); border-radius:2px;
@@ -303,7 +299,7 @@ img{max-width:100%; display:block}
 .check.on{background:#fff2f4; border-color:var(--red); color:var(--wine)}
 .check.on .box{background:var(--red); border-color:var(--red)}
 
-/* ФОТО-ЛЕНТА */
+/* ФОТО-ЛЕНТА (без подписей, только Тимур и Саша) */
 .photo-strip{
   position:relative; z-index:3;
   padding:36px 16px;
@@ -321,7 +317,7 @@ img{max-width:100%; display:block}
   gap:18px; justify-items:center;
 }
 .strip-item{
-  position:relative; background:#fff; padding:7px 7px 24px; border-radius:3px;
+  position:relative; background:#fff; padding:7px 7px; border-radius:3px;
   box-shadow:0 10px 24px rgba(139,28,51,.22);
   transform:rotate(var(--r,0deg));
   transition:transform .3s cubic-bezier(.3,1.4,.5,1), box-shadow .3s;
@@ -331,11 +327,6 @@ img{max-width:100%; display:block}
   box-shadow:0 18px 34px rgba(139,28,51,.32); z-index:10}
 .strip-item img{width:100%; aspect-ratio:1/1; object-fit:cover;
   border-radius:2px; background:#fbe1e9}
-.strip-item .cap{
-  position:absolute; left:0; right:0; bottom:5px;
-  font-family:'Great Vibes',cursive; font-size:17px; text-align:center;
-  color:var(--wine);
-}
 .strip-item.no-photo img{display:none}
 .strip-item.no-photo::before{
   content:'📸'; display:grid; place-items:center;
@@ -346,8 +337,88 @@ img{max-width:100%; display:block}
   width:52px; height:16px; background:rgba(201,162,39,.5); border-radius:2px;
 }
 
-.footer{text-align:center; margin-top:56px; font-size:14px;
+/* БЛОК ПОДРУЖЕК В КОНЦЕ (с подписями) */
+.girls-block{
+  position:relative; z-index:3;
+  padding:48px 16px 56px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,.95), transparent 60%),
+    repeating-linear-gradient(90deg,
+      var(--cream) 0px, var(--cream) 26px,
+      var(--stripe) 26px, var(--stripe) 52px);
+  border-top:3px double var(--rose);
+  border-bottom:3px double var(--rose);
+}
+.girls-inner{max-width:1100px; margin:0 auto; text-align:center}
+.girls-title{
+  font-family:'Great Vibes',cursive; font-size:clamp(36px,8vw,58px);
+  color:var(--wine); line-height:1; margin:0 0 8px;
+}
+.girls-sub{
+  font-family:'Playfair Display',serif; font-style:italic;
+  font-size:15px; color:var(--wine); opacity:.75; margin:0 0 32px;
+}
+.girls-grid{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:22px; justify-items:center;
+}
+.girl-card{
+  position:relative; background:#fff; padding:9px 9px 42px; border-radius:3px;
+  box-shadow:0 12px 28px rgba(139,28,51,.25);
+  transform:rotate(var(--r,0deg));
+  transition:transform .35s cubic-bezier(.3,1.4,.5,1), box-shadow .35s;
+  cursor:pointer; width:100%; max-width:220px;
+}
+.girl-card:hover{transform:rotate(0) translateY(-8px) scale(1.06);
+  box-shadow:0 22px 44px rgba(139,28,51,.35); z-index:10}
+.girl-card img{width:100%; aspect-ratio:1/1; object-fit:cover;
+  border-radius:2px; background:#fbe1e9}
+.girl-card .name{
+  position:absolute; left:0; right:0; bottom:12px;
+  font-family:'Great Vibes',cursive; font-size:26px;
+  color:var(--wine); line-height:1;
+}
+.girl-card .tape{
+  position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-4deg);
+  width:64px; height:20px; background:rgba(201,162,39,.55); border-radius:2px;
+}
+.girl-card.no-photo img{display:none}
+.girl-card.no-photo::before{
+  content:'📸'; display:grid; place-items:center;
+  width:100%; aspect-ratio:1/1; font-size:36px; background:#fbe1e9; border-radius:2px;
+}
+
+.signature{
+  margin:52px auto 0; max-width:640px;
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(28px,6vw,44px);
+  color:var(--wine); line-height:1.15;
+}
+.signature .heart{color:var(--red); font-size:.8em; display:inline-block; animation:pulse 1.6s ease-in-out infinite}
+
+.footer{text-align:center; margin-top:40px; font-size:14px;
   color:var(--wine); opacity:.75; line-height:1.7}
+
+/* МУЗЫКА (кнопка) */
+.music-btn{
+  position:fixed; top:16px; right:16px; z-index:9998;
+  width:52px; height:52px; border-radius:50%; border:0;
+  background:linear-gradient(160deg,#e8506f,#8b1c33); color:#fff;
+  font-size:22px; cursor:pointer;
+  box-shadow:0 12px 28px rgba(139,28,51,.42);
+  display:grid; place-items:center;
+  transition:transform .25s, box-shadow .25s;
+}
+.music-btn:hover{transform:scale(1.08)}
+.music-btn.playing{animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.music-btn .pulse{
+  position:absolute; inset:-6px; border-radius:50%;
+  border:2px solid rgba(217,32,72,.5);
+  animation:pulse 1.6s ease-in-out infinite;
+  display:none;
+}
+.music-btn.playing .pulse{display:block}
 
 .secret-toast{
   position:fixed; left:50%; bottom:28px; transform:translate(-50%,140%);
@@ -392,6 +463,12 @@ img{max-width:100%; display:block}
 
 <canvas id="confetti"></canvas>
 <div id="bubbles" aria-hidden="true"></div>
+
+<!-- ==================== КНОПКА МУЗЫКИ ==================== -->
+<button class="music-btn" id="musicBtn" aria-label="Включить музыку" title="Happy Birthday 🎂">
+  <span id="musicIcon">🎵</span>
+  <span class="pulse" aria-hidden="true"></span>
+</button>
 
 <!-- ======================= HERO ======================= -->
 <section class="hero">
@@ -467,7 +544,7 @@ img{max-width:100%; display:block}
 
 </section>
 
-<!-- ============== ФОТО-ЛЕНТА №1 ============== -->
+<!-- ============ ФОТО-ЛЕНТА №1 (Тимур и Саша, без подписей) ============ -->
 <section class="photo-strip">
   <div class="photo-strip-inner" id="strip1"></div>
 </section>
@@ -487,7 +564,7 @@ img{max-width:100%; display:block}
 </div>
 </section>
 
-<!-- ============== ФОТО-ЛЕНТА №2 ============== -->
+<!-- ============ ФОТО-ЛЕНТА №2 (Тимур и Саша, без подписей) ============ -->
 <section class="photo-strip">
   <div class="photo-strip-inner" id="strip2"></div>
 </section>
@@ -505,7 +582,7 @@ img{max-width:100%; display:block}
 </div>
 </section>
 
-<!-- ============== ФОТО-ЛЕНТА №3 ============== -->
+<!-- ============ ФОТО-ЛЕНТА №3 (Тимур и Саша, без подписей) ============ -->
 <section class="photo-strip">
   <div class="photo-strip-inner" id="strip3"></div>
 </section>
@@ -542,12 +619,20 @@ img{max-width:100%; display:block}
   <h2>Отметь, что берёшь с собой</h2>
   <div class="checks" id="checks"></div>
 
-  <p class="footer">
-    Тимур уже собирает вещи 😎 · ждём тебя, Саша!<br>
-    с любовью, твои любимки 💗
-  </p>
-
 </div>
+</section>
+
+<!-- ============== БЛОК ПОДРУЖЕК С ПОДПИСЯМИ ============== -->
+<section class="girls-block">
+  <div class="girls-inner">
+    <h2 class="girls-title">Наши девчонки</h2>
+    <p class="girls-sub">те, кто всегда рядом</p>
+    <div class="girls-grid" id="girlsGrid"></div>
+
+    <div class="signature">
+      с любовью, твои девчонки <span class="heart">💗</span>
+    </div>
+  </div>
 </section>
 
 <!-- ============== ЛАЙТБОКС ============== -->
@@ -566,34 +651,24 @@ const WORD    = 'ДЕВИЧНИК';
 const DATE    = '2026-10-17T16:00:00';
 const ADDRESS = 'г. Казань, ул. Радиальная, 23/20';
 
-// Все 12 фото
-const ALL_PHOTOS = [
-  // Тимур и Саша
+// Тимур и Саша (без подписей)
+const PHOTOS_COUPLE = [
   't1.JPG','t2.JPG','t3.JPG','t4.JPG',
-  't5.JPG','t6.JPG','t7.JPG','t8.JPG',
-  // Подружки
-  'photo1.JPG','photo2.JPG','photo3.JPG','photo4.JPG'
+  't5.JPG','t6.JPG','t7.JPG','t8.JPG'
 ];
 
-// Подписи: сначала 8 Тимура и Саши, потом 4 подружки по именам
-const CAPTIONS = [
-  // Тимур и Саша
-  'первое фото', 'тот день', 'море', 'смеёмся',
-  'наша зима', 'любим гулять', 'просто мы', 'навсегда',
-  // Подружки — Лиза, Таня, Алина, Эля
-  'Лиза 💕', 'Таня ✨', 'Алина 🌸', 'Эля 💗'
+// Подружки с подписями
+const PHOTOS_GIRLS = [
+  { src: 'photo1.JPG', name: 'Лиза'  },
+  { src: 'photo2.JPG', name: 'Таня'  },
+  { src: 'photo3.JPG', name: 'Алина' },
+  { src: 'photo4.JPG', name: 'Эля'   }
 ];
-
-// Раскладка индексов по секциям
-const HERO_LEFT_IDX = [0,1,2,3];       // hero: слева — Тимур/Саша
-const STRIP1_IDX    = [8,9,4,5];       // Лиза, Таня, Тимур5, Тимур6
-const STRIP2_IDX    = [4,5,6,7];       // Тимур5–8
-const STRIP3_IDX    = [10,11,6,7];     // Алина, Эля, Тимур7, Тимур8
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* ========================================================= */
 
-/* ---------- ЗВУК ---------- */
+/* ---------- ЗВУК (эффекты) ---------- */
 let AC = null;
 function audio(){
   if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
@@ -658,6 +733,96 @@ function chime(){
     o.connect(g).connect(ctx.destination); o.start(t + i*0.09); o.stop(t + i*0.09 + 0.8);
   });
 }
+
+/* ---------- МУЗЫКА: Happy Birthday (синтез) ---------- */
+let musicOn = false;
+let musicTimer = null;
+let musicCtx = null;
+
+// Мелодия: [частота (Гц) или 0 = пауза, длительность в долях]
+// Тональность: F major, 3/4
+const NOTE = {
+  C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00,
+  A4:440.00, Bb4:466.16, C5:523.25, D5:587.33, F5:698.46, G5:783.99, A5:880.00
+};
+// Happy Birthday to You (простая 3/4 версия)
+const MELODY = [
+  // Happy birthday to you
+  [NOTE.C4, 0.5],[NOTE.C4, 0.5],[NOTE.D4, 1],[NOTE.C4, 1],[NOTE.F4, 1],[NOTE.E4, 2],
+  // Happy birthday to you
+  [NOTE.C4, 0.5],[NOTE.C4, 0.5],[NOTE.D4, 1],[NOTE.C4, 1],[NOTE.G4, 1],[NOTE.F4, 2],
+  // Happy birthday dear Sa-sha
+  [NOTE.C4, 0.5],[NOTE.C4, 0.5],[NOTE.C5, 1],[NOTE.A4, 1],[NOTE.F4, 1],[NOTE.E4, 1],[NOTE.D4, 1],
+  // Happy birthday to you
+  [NOTE.Bb4, 0.5],[NOTE.Bb4, 0.5],[NOTE.A4, 1],[NOTE.F4, 1],[NOTE.G4, 1],[NOTE.F4, 2],
+  // маленькая пауза перед повтором
+  [0, 2]
+];
+
+function playNote(ctx, dest, freq, startTime, duration, gainLevel = 0.12){
+  if (!freq) return;
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.type = 'triangle';
+  o.frequency.value = freq;
+  // мягкое звучание: атака + затухание
+  g.gain.setValueAtTime(0.0001, startTime);
+  g.gain.exponentialRampToValueAtTime(gainLevel, startTime + 0.03);
+  g.gain.exponentialRampToValueAtTime(0.0001, startTime + duration * 0.95);
+  o.connect(g).connect(dest);
+  o.start(startTime);
+  o.stop(startTime + duration + 0.05);
+}
+
+function scheduleMelody(){
+  if (!musicOn) return;
+  const ctx = audio();
+  const master = ctx.createGain();
+  master.gain.value = 0.9;
+  master.connect(ctx.destination);
+
+  const beatSec = 0.5;   // 1 доля = 0.5 сек
+  let t = ctx.currentTime + 0.05;
+  let total = 0;
+  for (const [freq, beats] of MELODY){
+    const dur = beats * beatSec;
+    playNote(ctx, master, freq, t, dur);
+    t += dur;
+    total += dur;
+  }
+  // после окончания мелодии — пауза и повтор
+  musicTimer = setTimeout(scheduleMelody, (total + 1.5) * 1000);
+}
+
+const musicBtn = document.getElementById('musicBtn');
+const musicIcon = document.getElementById('musicIcon');
+
+musicBtn.addEventListener('click', () => {
+  musicOn = !musicOn;
+  if (musicOn){
+    // разбудить аудио-контекст
+    audio();
+    musicBtn.classList.add('playing');
+    musicIcon.textContent = '⏸';
+    musicBtn.setAttribute('aria-label','Выключить музыку');
+    musicBtn.title = 'Играет: Happy Birthday 🎂';
+    scheduleMelody();
+    showToast('С днём рождения, Саша! 🎂🎵');
+    // и конфетти
+    for (let i = 0; i < 4; i++){
+      setTimeout(() => burst(Math.random()*innerWidth, innerHeight*0.4, 26), i*180);
+    }
+  } else {
+    musicBtn.classList.remove('playing');
+    musicIcon.textContent = '🎵';
+    musicBtn.setAttribute('aria-label','Включить музыку');
+    musicBtn.title = 'Happy Birthday 🎂';
+    if (musicTimer) { clearTimeout(musicTimer); musicTimer = null; }
+    if (musicCtx) { try { musicCtx.close(); } catch(e){} musicCtx = null; }
+    // принудительно останавливаем все ноты
+    if (AC) { try { AC.suspend(); AC.resume(); } catch(e){} }
+  }
+});
 
 /* ---------- КОНФЕТТИ ---------- */
 const cvs = document.getElementById('confetti');
@@ -852,45 +1017,15 @@ CHECKLIST.forEach(txt => {
   checksEl.appendChild(d);
 });
 
-/* ---------- ФОТО ---------- */
-const TILTS = [-11, 9, 7, -8];
-
-function makePolaroid(idx, tilt, side){
-  const src = ALL_PHOTOS[idx];
-  const cap = CAPTIONS[idx] || '';
-  const d = document.createElement('div');
-  d.className = 'polaroid';
-  d.style.setProperty('--r', (tilt * (side === 'right' ? -1 : 1)) + 'deg');
-  d.innerHTML = `
-    <span class="tape"></span>
-    <img src="${src}" alt="Наше фото" loading="lazy"
-         onerror="this.closest('.polaroid').classList.add('no-photo')">
-    <span class="cap">${cap}</span>`;
-  d.addEventListener('click', () => {
-    const r = d.getBoundingClientRect();
-    burst(r.left + r.width/2, r.top + r.height/2, 20);
-    popSound();
-    d.animate(
-      [{transform:'rotate(var(--r,0deg)) scale(1)'},
-       {transform:'rotate(var(--r,0deg)) scale(1.2)'},
-       {transform:'rotate(var(--r,0deg)) scale(1)'}],
-      { duration: 500, easing:'cubic-bezier(.3,1.6,.5,1)' });
-    openLightbox(ALL_PHOTOS, idx);
-  });
-  return d;
-}
-
-function makeStrip(idx, tilt){
-  const src = ALL_PHOTOS[idx];
-  const cap = CAPTIONS[idx] || '';
+/* ---------- ФОТО ТИМУРА И САШИ (без подписей) ---------- */
+function makeCouplePhoto(src, tilt){
   const d = document.createElement('div');
   d.className = 'strip-item';
   d.style.setProperty('--r', tilt + 'deg');
   d.innerHTML = `
     <span class="tape"></span>
-    <img src="${src}" alt="Наше фото" loading="lazy"
-         onerror="this.closest('.strip-item').classList.add('no-photo')">
-    <span class="cap">${cap}</span>`;
+    <img src="${src}" alt="Тимур и Саша" loading="lazy"
+         onerror="this.closest('.strip-item').classList.add('no-photo')">`;
   d.addEventListener('click', () => {
     const r = d.getBoundingClientRect();
     burst(r.left + r.width/2, r.top + r.height/2, 18);
@@ -900,30 +1035,80 @@ function makeStrip(idx, tilt){
        {transform:'rotate(var(--r,0deg)) scale(1.15)'},
        {transform:'rotate(var(--r,0deg)) scale(1)'}],
       { duration: 450, easing:'cubic-bezier(.3,1.6,.5,1)' });
-    openLightbox(ALL_PHOTOS, idx);
+    openLightbox(PHOTOS_COUPLE, PHOTOS_COUPLE.indexOf(src));
   });
   return d;
 }
 
-// hero: слева и справа — 4 фото Тимура/Саши
+// 8 фото разложим по 3 полосам: 3 + 3 + 2
+const coupleIdx1 = [0,1,2];
+const coupleIdx2 = [3,4,5];
+const coupleIdx3 = [6,7];
+
+const strip1El = document.getElementById('strip1');
+const strip2El = document.getElementById('strip2');
+const strip3El = document.getElementById('strip3');
+coupleIdx1.forEach((i, k) => strip1El.appendChild(makeCouplePhoto(PHOTOS_COUPLE[i], [-9, 7, -6][k])));
+coupleIdx2.forEach((i, k) => strip2El.appendChild(makeCouplePhoto(PHOTOS_COUPLE[i], [8, -10, 6][k])));
+coupleIdx3.forEach((i, k) => strip3El.appendChild(makeCouplePhoto(PHOTOS_COUPLE[i], [-7, 9][k])));
+
+// На первом экране (hero) — 4 фото Тимура/Саши по бокам, без подписей
+const TILTS = [-11, 9, 7, -8];
+const heroIdx = [0,1,2,3];
+function makePolaroidHero(src, tilt, side){
+  const d = document.createElement('div');
+  d.className = 'polaroid';
+  d.style.setProperty('--r', (tilt * (side === 'right' ? -1 : 1)) + 'deg');
+  d.innerHTML = `
+    <span class="tape"></span>
+    <img src="${src}" alt="Тимур и Саша" loading="lazy"
+         onerror="this.closest('.polaroid').classList.add('no-photo')">`;
+  d.addEventListener('click', () => {
+    const r = d.getBoundingClientRect();
+    burst(r.left + r.width/2, r.top + r.height/2, 20);
+    popSound();
+    d.animate(
+      [{transform:'rotate(var(--r,0deg)) scale(1)'},
+       {transform:'rotate(var(--r,0deg)) scale(1.2)'},
+       {transform:'rotate(var(--r,0deg)) scale(1)'}],
+      { duration: 500, easing:'cubic-bezier(.3,1.6,.5,1)' });
+    openLightbox(PHOTOS_COUPLE, PHOTOS_COUPLE.indexOf(src));
+  });
+  return d;
+}
 const leftBox  = document.getElementById('polaroids-left');
 const rightBox = document.getElementById('polaroids-right');
-HERO_LEFT_IDX.forEach((idx, i) => {
-  leftBox.appendChild(makePolaroid(idx, TILTS[i], 'left'));
-  rightBox.appendChild(makePolaroid(idx, TILTS[i], 'right'));
+heroIdx.forEach((i, k) => {
+  leftBox.appendChild(makePolaroidHero(PHOTOS_COUPLE[i], TILTS[k], 'left'));
+  rightBox.appendChild(makePolaroidHero(PHOTOS_COUPLE[i], TILTS[k], 'right'));
 });
 
-// 3 фотов-ленты
-const strips = [
-  { el: document.getElementById('strip1'), idx: STRIP1_IDX },
-  { el: document.getElementById('strip2'), idx: STRIP2_IDX },
-  { el: document.getElementById('strip3'), idx: STRIP3_IDX }
-];
-strips.forEach(({ el, idx }) => {
-  idx.forEach((photoIdx, i) => {
-    const t = [ -9, 7, -6, 10 ][i % 4];
-    el.appendChild(makeStrip(photoIdx, t));
+/* ---------- ФОТО ПОДРУЖЕК (с подписями, отдельным блоком в конце) ---------- */
+const GIRL_TILTS = [-6, 5, -4, 7];
+const girlsGrid = document.getElementById('girlsGrid');
+const girlSources = PHOTOS_GIRLS.map(g => g.src);
+
+PHOTOS_GIRLS.forEach((g, i) => {
+  const d = document.createElement('div');
+  d.className = 'girl-card';
+  d.style.setProperty('--r', GIRL_TILTS[i % GIRL_TILTS.length] + 'deg');
+  d.innerHTML = `
+    <span class="tape"></span>
+    <img src="${g.src}" alt="${g.name}" loading="lazy"
+         onerror="this.closest('.girl-card').classList.add('no-photo')">
+    <span class="name">${g.name}</span>`;
+  d.addEventListener('click', () => {
+    const r = d.getBoundingClientRect();
+    burst(r.left + r.width/2, r.top + r.height/2, 24);
+    popSound();
+    d.animate(
+      [{transform:'rotate(var(--r,0deg)) scale(1)'},
+       {transform:'rotate(var(--r,0deg)) scale(1.12)'},
+       {transform:'rotate(var(--r,0deg)) scale(1)'}],
+      { duration: 500, easing:'cubic-bezier(.3,1.6,.5,1)' });
+    openLightbox(girlSources, i);
   });
+  girlsGrid.appendChild(d);
 });
 
 /* ---------- ЛАЙТБОКС ---------- */
