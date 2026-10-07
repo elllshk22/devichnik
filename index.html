@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Девичник у Саши · Bachelorette Party</title>
-<meta name="description" content="Приглашение на девичник 17 октября · Казань · баня, сауна, чан">
+<meta name="description" content="Приглашение на девичник · Казань · баня, сауна, чан">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500;1,700&family=Great+Vibes&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
@@ -77,6 +77,31 @@ img{max-width:100%; display:block}
 .garland{position:relative; z-index:5; height:52px; margin:12px auto 4px; max-width:820px; width:100%}
 .garland svg{width:100%; height:100%; display:block}
 
+/* ПРОГРЕСС */
+.progress-wrap{
+  position:relative; z-index:6;
+  max-width:340px; width:100%; margin:6px auto 0;
+  text-align:center;
+  transition:opacity .5s, max-height .5s;
+}
+.progress-wrap.hide{opacity:0; max-height:0; overflow:hidden; margin:0}
+.progress-text{
+  font-family:'Playfair Display',serif; font-style:italic;
+  font-size:14px; color:var(--wine); margin-bottom:8px;
+}
+.progress-text b{font-style:normal; color:var(--red); font-size:16px}
+.progress-bar{
+  height:8px; border-radius:999px; background:rgba(255,255,255,.7);
+  border:1px solid var(--rose); overflow:hidden;
+  box-shadow:inset 0 2px 4px rgba(139,28,51,.08);
+}
+.progress-fill{
+  height:100%; width:0%;
+  background:linear-gradient(90deg,#ff9eb4,#d92048);
+  border-radius:999px;
+  transition:width .35s cubic-bezier(.3,1.4,.5,1);
+}
+
 /* ШАРИКИ */
 .word{
   display:flex; flex-wrap:wrap; justify-content:center;
@@ -117,6 +142,12 @@ img{max-width:100%; display:block}
   background:rgba(139,28,51,.5); transform:translateX(-50%);
 }
 .balloon.pop{transform:scale(1.5); opacity:0; pointer-events:none}
+.balloon.shake{animation:shake .4s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-4px) rotate(-4deg)}
+  75%{transform:translateX(4px) rotate(4deg)}
+}
 
 /* HERO-СЕТКА */
 .hero-grid{
@@ -179,10 +210,51 @@ img{max-width:100%; display:block}
   background:rgba(255,255,255,.85); padding:9px 20px; border-radius:999px;
   animation:pulse 1.8s ease-in-out infinite; text-align:center;
   border:1px dashed var(--rose);
+  transition:background .3s, color .3s, border-color .3s;
+}
+.hint.locked{
+  animation:none;
+  background:rgba(139,28,51,.92);
+  color:#fff;
+  border-color:transparent;
+}
+.hint.unlocked{
+  animation:pulse 1.2s ease-in-out infinite;
+  background:rgba(217,32,72,.95);
+  color:#fff;
+  border-color:transparent;
+  box-shadow:0 10px 24px rgba(217,32,72,.4);
 }
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-.envelope{position:relative; width:min(80vw,340px); aspect-ratio:3/2; cursor:pointer; perspective:900px}
+
+.envelope{
+  position:relative; width:min(80vw,340px); aspect-ratio:3/2;
+  cursor:pointer; perspective:900px;
+  transition:filter .4s;
+}
+.envelope.locked{
+  cursor:not-allowed;
+  filter:grayscale(.35) brightness(.92) blur(.4px);
+}
+.envelope.locked:hover{
+  filter:grayscale(.3) brightness(.95) blur(.3px);
+}
+.envelope.unlocked{
+  filter:drop-shadow(0 0 26px rgba(217,32,72,.55));
+  animation:bounceReady 1.4s ease-in-out infinite;
+}
+@keyframes bounceReady{
+  0%,100%{transform:translateY(0) rotate(0)}
+  50%{transform:translateY(-8px) rotate(-1.2deg)}
+}
+.envelope.shake{animation:envShake .45s}
+@keyframes envShake{
+  0%,100%{transform:translateX(0) rotate(0)}
+  25%{transform:translateX(-8px) rotate(-3deg)}
+  75%{transform:translateX(8px) rotate(3deg)}
+}
 .envelope:focus-visible{outline:3px solid var(--red); outline-offset:8px; border-radius:12px}
+
 .env-back{position:absolute; inset:0; border-radius:10px;
   background:linear-gradient(160deg,#e8506f,#8b1c33);
   box-shadow:0 22px 50px rgba(139,28,51,.4);}
@@ -201,6 +273,7 @@ img{max-width:100%; display:block}
 .seal{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
   z-index:6; font-size:1.7rem; transition:opacity .3s, transform .3s;
   filter:drop-shadow(0 3px 6px rgba(120,10,50,.5));}
+.seal.lock{font-size:2rem}
 .envelope.open .env-flap{transform:rotateX(180deg); z-index:1}
 .envelope.open .env-letter{transform:translateY(-58%)}
 .envelope.open .seal{opacity:0; transform:translate(-50%,-50%) scale(1.6)}
@@ -299,7 +372,7 @@ img{max-width:100%; display:block}
 .check.on{background:#fff2f4; border-color:var(--red); color:var(--wine)}
 .check.on .box{background:var(--red); border-color:var(--red)}
 
-/* ФОТО-ЛЕНТА (без подписей, только Тимур и Саша) */
+/* ФОТО-ЛЕНТА */
 .photo-strip{
   position:relative; z-index:3;
   padding:36px 16px;
@@ -337,7 +410,7 @@ img{max-width:100%; display:block}
   width:52px; height:16px; background:rgba(201,162,39,.5); border-radius:2px;
 }
 
-/* БЛОК ПОДРУЖЕК В КОНЦЕ (с подписями) */
+/* ПОДРУЖКИ */
 .girls-block{
   position:relative; z-index:3;
   padding:48px 16px 56px;
@@ -399,7 +472,7 @@ img{max-width:100%; display:block}
 .footer{text-align:center; margin-top:40px; font-size:14px;
   color:var(--wine); opacity:.75; line-height:1.7}
 
-/* МУЗЫКА (кнопка) */
+/* МУЗЫКА */
 .music-btn{
   position:fixed; top:16px; right:16px; z-index:9998;
   width:52px; height:52px; border-radius:50%; border:0;
@@ -464,7 +537,6 @@ img{max-width:100%; display:block}
 <canvas id="confetti"></canvas>
 <div id="bubbles" aria-hidden="true"></div>
 
-<!-- ==================== КНОПКА МУЗЫКИ ==================== -->
 <button class="music-btn" id="musicBtn" aria-label="Включить музыку" title="Happy Birthday 🎂">
   <span id="musicIcon">🎵</span>
   <span class="pulse" aria-hidden="true"></span>
@@ -498,20 +570,28 @@ img{max-width:100%; display:block}
     <div class="deco-line"><span></span><em>✦</em><em>✦</em><em>✦</em><span></span></div>
   </header>
 
+  <!-- ПРОГРЕСС -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-text">Лопни все шарики, чтобы открыть письмо · <b><span id="poppedCount">0</span> / <span id="totalCount">0</span></b></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
   <div class="word" id="word" aria-label="Нажми на шарики"></div>
 
   <div class="hero-grid">
     <div class="polaroids" id="polaroids-left"></div>
+
     <div class="envelope-wrap" id="envelopeWrap">
-      <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Открыть письмо">
+      <div class="envelope locked" id="envelope" role="button" tabindex="0" aria-label="Открыть письмо (заблокировано)">
         <div class="env-back"></div>
         <div class="env-letter">💌</div>
         <div class="env-front"></div>
         <div class="env-flap"></div>
-        <div class="seal">💗</div>
+        <div class="seal lock" id="seal">🔒</div>
       </div>
-      <div class="hint" id="hint">нажми на письмо 💌</div>
+      <div class="hint locked" id="hint">🔒 Сначала лопни все шарики</div>
     </div>
+
     <div class="polaroids" id="polaroids-right"></div>
   </div>
 
@@ -544,12 +624,12 @@ img{max-width:100%; display:block}
 
 </section>
 
-<!-- ============ ФОТО-ЛЕНТА №1 (Тимур и Саша, без подписей) ============ -->
+<!-- ФОТО-ЛЕНТА №1 -->
 <section class="photo-strip">
   <div class="photo-strip-inner" id="strip1"></div>
 </section>
 
-<!-- ======================= ДЕТАЛИ ======================= -->
+<!-- ДЕТАЛИ -->
 <section class="details" id="details">
 <div class="details-inner">
 
@@ -564,12 +644,12 @@ img{max-width:100%; display:block}
 </div>
 </section>
 
-<!-- ============ ФОТО-ЛЕНТА №2 (Тимур и Саша, без подписей) ============ -->
+<!-- ФОТО-ЛЕНТА №2 -->
 <section class="photo-strip">
   <div class="photo-strip-inner" id="strip2"></div>
 </section>
 
-<!-- ============== ОТСЧЁТ ============== -->
+<!-- ОТСЧЁТ -->
 <section class="details" style="border-top:0;">
 <div class="details-inner">
   <h2>До девичника осталось</h2>
@@ -582,12 +662,12 @@ img{max-width:100%; display:block}
 </div>
 </section>
 
-<!-- ============ ФОТО-ЛЕНТА №3 (Тимур и Саша, без подписей) ============ -->
+<!-- ФОТО-ЛЕНТА №3 -->
 <section class="photo-strip">
   <div class="photo-strip-inner" id="strip3"></div>
 </section>
 
-<!-- ============== КАРТА / ДРЕСС-КОД / ЧЕК-ЛИСТ ============== -->
+<!-- КАРТА / ДРЕСС-КОД / ЧЕК-ЛИСТ -->
 <section class="details" style="border-top:0;">
 <div class="details-inner">
 
@@ -622,7 +702,7 @@ img{max-width:100%; display:block}
 </div>
 </section>
 
-<!-- ============== БЛОК ПОДРУЖЕК С ПОДПИСЯМИ ============== -->
+<!-- ПОДРУЖКИ -->
 <section class="girls-block">
   <div class="girls-inner">
     <h2 class="girls-title">Наши девчонки</h2>
@@ -635,7 +715,6 @@ img{max-width:100%; display:block}
   </div>
 </section>
 
-<!-- ============== ЛАЙТБОКС ============== -->
 <div class="lightbox" id="lightbox">
   <button class="close" id="lbClose" aria-label="Закрыть">×</button>
   <button class="nav prev" id="lbPrev" aria-label="Назад">‹</button>
@@ -651,13 +730,11 @@ const WORD    = 'ДЕВИЧНИК';
 const DATE    = '2026-10-17T16:00:00';
 const ADDRESS = 'г. Казань, ул. Радиальная, 23/20';
 
-// Тимур и Саша (без подписей)
 const PHOTOS_COUPLE = [
   't1.JPG','t2.JPG','t3.JPG','t4.JPG',
   't5.JPG','t6.JPG','t7.JPG','t8.JPG'
 ];
 
-// Подружки с подписями
 const PHOTOS_GIRLS = [
   { src: 'photo1.JPG', name: 'Лиза'  },
   { src: 'photo2.JPG', name: 'Таня'  },
@@ -668,7 +745,7 @@ const PHOTOS_GIRLS = [
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* ========================================================= */
 
-/* ---------- ЗВУК (эффекты) ---------- */
+/* ---------- ЗВУК ---------- */
 let AC = null;
 function audio(){
   if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
@@ -733,82 +810,68 @@ function chime(){
     o.connect(g).connect(ctx.destination); o.start(t + i*0.09); o.stop(t + i*0.09 + 0.8);
   });
 }
+// Глухой "тук" для заблокированного конверта
+function thud(){
+  if (reduce) return;
+  const ctx = audio(), t = ctx.currentTime;
+  const o = ctx.createOscillator(); o.type='sine';
+  o.frequency.setValueAtTime(140, t);
+  o.frequency.exponentialRampToValueAtTime(60, t + 0.12);
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.28, t);
+  g.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+  o.connect(g).connect(ctx.destination); o.start(t); o.stop(t + 0.16);
+}
 
-/* ---------- МУЗЫКА: Happy Birthday (синтез) ---------- */
+/* ---------- МУЗЫКА Happy Birthday ---------- */
 let musicOn = false;
 let musicTimer = null;
-let musicCtx = null;
-
-// Мелодия: [частота (Гц) или 0 = пауза, длительность в долях]
-// Тональность: F major, 3/4
 const NOTE = {
   C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00,
   A4:440.00, Bb4:466.16, C5:523.25, D5:587.33, F5:698.46, G5:783.99, A5:880.00
 };
-// Happy Birthday to You (простая 3/4 версия)
 const MELODY = [
-  // Happy birthday to you
   [NOTE.C4, 0.5],[NOTE.C4, 0.5],[NOTE.D4, 1],[NOTE.C4, 1],[NOTE.F4, 1],[NOTE.E4, 2],
-  // Happy birthday to you
   [NOTE.C4, 0.5],[NOTE.C4, 0.5],[NOTE.D4, 1],[NOTE.C4, 1],[NOTE.G4, 1],[NOTE.F4, 2],
-  // Happy birthday dear Sa-sha
   [NOTE.C4, 0.5],[NOTE.C4, 0.5],[NOTE.C5, 1],[NOTE.A4, 1],[NOTE.F4, 1],[NOTE.E4, 1],[NOTE.D4, 1],
-  // Happy birthday to you
   [NOTE.Bb4, 0.5],[NOTE.Bb4, 0.5],[NOTE.A4, 1],[NOTE.F4, 1],[NOTE.G4, 1],[NOTE.F4, 2],
-  // маленькая пауза перед повтором
   [0, 2]
 ];
-
 function playNote(ctx, dest, freq, startTime, duration, gainLevel = 0.12){
   if (!freq) return;
   const o = ctx.createOscillator();
   const g = ctx.createGain();
-  o.type = 'triangle';
-  o.frequency.value = freq;
-  // мягкое звучание: атака + затухание
+  o.type = 'triangle'; o.frequency.value = freq;
   g.gain.setValueAtTime(0.0001, startTime);
   g.gain.exponentialRampToValueAtTime(gainLevel, startTime + 0.03);
   g.gain.exponentialRampToValueAtTime(0.0001, startTime + duration * 0.95);
-  o.connect(g).connect(dest);
-  o.start(startTime);
-  o.stop(startTime + duration + 0.05);
+  o.connect(g).connect(dest); o.start(startTime); o.stop(startTime + duration + 0.05);
 }
-
 function scheduleMelody(){
   if (!musicOn) return;
   const ctx = audio();
-  const master = ctx.createGain();
-  master.gain.value = 0.9;
+  const master = ctx.createGain(); master.gain.value = 0.9;
   master.connect(ctx.destination);
-
-  const beatSec = 0.5;   // 1 доля = 0.5 сек
-  let t = ctx.currentTime + 0.05;
-  let total = 0;
+  const beatSec = 0.5;
+  let t = ctx.currentTime + 0.05; let total = 0;
   for (const [freq, beats] of MELODY){
     const dur = beats * beatSec;
     playNote(ctx, master, freq, t, dur);
-    t += dur;
-    total += dur;
+    t += dur; total += dur;
   }
-  // после окончания мелодии — пауза и повтор
   musicTimer = setTimeout(scheduleMelody, (total + 1.5) * 1000);
 }
-
 const musicBtn = document.getElementById('musicBtn');
 const musicIcon = document.getElementById('musicIcon');
-
 musicBtn.addEventListener('click', () => {
   musicOn = !musicOn;
   if (musicOn){
-    // разбудить аудио-контекст
     audio();
     musicBtn.classList.add('playing');
     musicIcon.textContent = '⏸';
     musicBtn.setAttribute('aria-label','Выключить музыку');
-    musicBtn.title = 'Играет: Happy Birthday 🎂';
     scheduleMelody();
     showToast('С днём рождения, Саша! 🎂🎵');
-    // и конфетти
     for (let i = 0; i < 4; i++){
       setTimeout(() => burst(Math.random()*innerWidth, innerHeight*0.4, 26), i*180);
     }
@@ -816,10 +879,7 @@ musicBtn.addEventListener('click', () => {
     musicBtn.classList.remove('playing');
     musicIcon.textContent = '🎵';
     musicBtn.setAttribute('aria-label','Включить музыку');
-    musicBtn.title = 'Happy Birthday 🎂';
     if (musicTimer) { clearTimeout(musicTimer); musicTimer = null; }
-    if (musicCtx) { try { musicCtx.close(); } catch(e){} musicCtx = null; }
-    // принудительно останавливаем все ноты
     if (AC) { try { AC.suspend(); AC.resume(); } catch(e){} }
   }
 });
@@ -885,7 +945,7 @@ if (!reduce){
   }
 }
 
-/* ---------- ШАРИКИ ---------- */
+/* ---------- ШАРИКИ (с блокировкой конверта) ---------- */
 const GRADS = [
   ['#ff9eb4','#8b1c33'], ['#e8506f','#a41e3e'], ['#c86b8f','#8b1c33'],
   ['#ffc2d1','#d92048'], ['#d9a7b4','#8b1c33'], ['#f7a8bd','#a41e3e'],
@@ -903,29 +963,71 @@ const letterBalloons = [];
   b.style.setProperty('--rot', (Math.random()*10-5).toFixed(1)+'deg');
   b.style.setProperty('--delay', (Math.random()*2).toFixed(2)+'s');
   b.style.marginTop = (Math.random()*22)+'px';
-  b.addEventListener('click', () => popBalloon(b, true));
+  b.addEventListener('click', () => popBalloon(b));
   wordEl.appendChild(b); letterBalloons.push(b);
 });
 
+// прогресс
+document.getElementById('totalCount').textContent = letterBalloons.length;
+const progressFill = document.getElementById('progressFill');
+const poppedCountEl = document.getElementById('poppedCount');
+
 let popped = 0;
-function popBalloon(el, isLetter){
+let firstPopTime = 0;
+let unlocked = false;
+
+function popBalloon(el){
   if (el.classList.contains('pop')) return;
   const r = el.getBoundingClientRect();
   burst(r.left + r.width/2, r.top + r.height/2, 22);
   popSound();
   el.classList.add('pop');
   setTimeout(() => el.style.visibility = 'hidden', 300);
-  if (isLetter){
-    popped++;
-    if (popped === letterBalloons.length){
-      document.getElementById('hint').textContent = 'Шарики лопнули 🎉 открывай письмо!';
-      document.getElementById('envelope').animate(
-        [{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],
-        { duration: 600, iterations: 3 });
-      burst(innerWidth/2, innerHeight/2, 60);
-      chime();
-      showToast('Все шарики лопнули! Ты готова открыть письмо 💌');
+
+  popped++;
+  if (!firstPopTime) firstPopTime = Date.now();
+  poppedCountEl.textContent = popped;
+  progressFill.style.width = (popped / letterBalloons.length * 100) + '%';
+
+  // осталось мало — подбадриваем
+  const remaining = letterBalloons.length - popped;
+  if (remaining === 3) showToast('Осталось всего 3 шарика! 🎈');
+  if (remaining === 1) showToast('Последний шарик! 🎈');
+
+  if (popped === letterBalloons.length){
+    unlockEnvelope();
+  }
+}
+
+function unlockEnvelope(){
+  unlocked = true;
+  const env = document.getElementById('envelope');
+  const hint = document.getElementById('hint');
+  const seal = document.getElementById('seal');
+
+  env.classList.remove('locked');
+  env.classList.add('unlocked');
+  env.setAttribute('aria-label','Открыть письмо');
+  hint.classList.remove('locked');
+  hint.classList.add('unlocked');
+  hint.textContent = '✨ Письмо открыто! Нажми ✨';
+  seal.textContent = '💗';
+
+  burst(innerWidth/2, innerHeight/2, 70);
+  chime();
+
+  // скрываем прогресс
+  document.getElementById('progressWrap').classList.add('hide');
+
+  // пасхалка: успел за 5 секунд
+  const elapsed = Date.now() - firstPopTime;
+  if (elapsed < 5000){
+    showToast('⚡ Вау! Ты справилась за ' + (elapsed/1000).toFixed(1) + ' сек! Суперскорость!');
+    for (let i = 0; i < 5; i++){
+      setTimeout(() => burst(Math.random()*innerWidth, innerHeight*0.5, 30), i*150);
     }
+  } else {
+    showToast('🎉 Все шарики лопнули! Теперь открывай письмо 💌');
   }
 }
 
@@ -934,10 +1036,23 @@ const envelope = document.getElementById('envelope');
 const wrap = document.getElementById('envelopeWrap');
 const card = document.getElementById('card');
 let opened = false;
+
 function openEnvelope(){
+  if (!unlocked){
+    // блок: трясём и показываем что закрыто
+    envelope.classList.remove('shake');
+    void envelope.offsetWidth;
+    envelope.classList.add('shake');
+    thud();
+    const hint = document.getElementById('hint');
+    hint.textContent = '🔒 Сначала лопни все шарики (' + popped + '/' + letterBalloons.length + ')';
+    return;
+  }
   if (opened) return;
-  opened = true; whoosh();
+  opened = true;
+  whoosh();
   envelope.classList.add('open');
+  envelope.classList.remove('unlocked');
   setTimeout(() => {
     wrap.classList.add('gone');
     card.classList.add('show');
@@ -1017,7 +1132,7 @@ CHECKLIST.forEach(txt => {
   checksEl.appendChild(d);
 });
 
-/* ---------- ФОТО ТИМУРА И САШИ (без подписей) ---------- */
+/* ---------- ФОТО ТИМУРА И САШИ ---------- */
 function makeCouplePhoto(src, tilt){
   const d = document.createElement('div');
   d.className = 'strip-item';
@@ -1040,11 +1155,9 @@ function makeCouplePhoto(src, tilt){
   return d;
 }
 
-// 8 фото разложим по 3 полосам: 3 + 3 + 2
 const coupleIdx1 = [0,1,2];
 const coupleIdx2 = [3,4,5];
 const coupleIdx3 = [6,7];
-
 const strip1El = document.getElementById('strip1');
 const strip2El = document.getElementById('strip2');
 const strip3El = document.getElementById('strip3');
@@ -1052,7 +1165,6 @@ coupleIdx1.forEach((i, k) => strip1El.appendChild(makeCouplePhoto(PHOTOS_COUPLE[
 coupleIdx2.forEach((i, k) => strip2El.appendChild(makeCouplePhoto(PHOTOS_COUPLE[i], [8, -10, 6][k])));
 coupleIdx3.forEach((i, k) => strip3El.appendChild(makeCouplePhoto(PHOTOS_COUPLE[i], [-7, 9][k])));
 
-// На первом экране (hero) — 4 фото Тимура/Саши по бокам, без подписей
 const TILTS = [-11, 9, 7, -8];
 const heroIdx = [0,1,2,3];
 function makePolaroidHero(src, tilt, side){
@@ -1083,7 +1195,7 @@ heroIdx.forEach((i, k) => {
   rightBox.appendChild(makePolaroidHero(PHOTOS_COUPLE[i], TILTS[k], 'right'));
 });
 
-/* ---------- ФОТО ПОДРУЖЕК (с подписями, отдельным блоком в конце) ---------- */
+/* ---------- ФОТО ПОДРУЖЕК ---------- */
 const GIRL_TILTS = [-6, 5, -4, 7];
 const girlsGrid = document.getElementById('girlsGrid');
 const girlSources = PHOTOS_GIRLS.map(g => g.src);
@@ -1150,7 +1262,7 @@ function showToast(msg){
   toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
 }
 
-/* ---------- ПАСХАЛКА ---------- */
+/* ---------- ПАСХАЛКА Konami ---------- */
 const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
 let konamiIdx = 0;
 document.addEventListener('keydown', e => {
